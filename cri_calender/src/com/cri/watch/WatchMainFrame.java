@@ -55,3 +55,4 @@ public class WatchMainFrame extends JFrame {
        label.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 }
+
