@@ -17,7 +17,7 @@ public class WatchMainFrame {
 		Calendar ca = Calendar.getInstance();
 		//switchで取得したデータに対する戻り値を指定
 		switch (ca.get(Calendar.DAY_OF_WEEK)) {
-		case Calendar.SUNDAY: return "非";
+		case Calendar.SUNDAY: return "日";
 		case Calendar.MONDAY: return "月";
 		case Calendar.TUESDAY: return "火";
 		case Calendar.WEDNESDAY: return "水";
