@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -84,6 +87,16 @@ public class TaskMainFrame extends JFrame {
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setBackground(Color.GRAY);
+		
+		addButton.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+			    DialogWindow dlg = new DialogWindow(null);
+				getContentPane().setLayout(new FlowLayout());
+				
+				dlg.actionPerformed(null);
+			}
+
+		});
 		
 	}
 
