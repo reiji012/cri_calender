@@ -102,9 +102,9 @@ public class MainFrame extends JFrame {
 		datePanel.setLayout(null);
 		//datePanelをcontentPaneに追加
 		contentPane.add(datePanel);
-		//datePanelの背景の設定
+		//datePanelの背景の指定
 		datePanel.setBackground(Color.GRAY);
-		//datePanel
+		//datePanelの位置を指定
 		datePanel.setBounds(0,50,1000,80);
 
 		//日付を表示するラベル
@@ -114,9 +114,13 @@ public class MainFrame extends JFrame {
 		dateLabel.setLayout(null);
 		//dateLabelをdatePanelに追加
 		datePanel.add(dateLabel);
+		//dateLabalの背景の指定
 		dateLabel.setBackground(Color.GRAY);
+		//dateLabelのフォントの色の指定
 		dateLabel.setForeground(Color.blue);
+		//dateLabelのフォントの指定（サイズなど）
 		dateLabel.setFont(new Font("", Font.PLAIN, 15));
+		//dateLabelの位置を指定
 		dateLabel.setBounds(35,30,450,40);
 
 		SwingUtilities.invokeLater(new Runnable() {
