@@ -90,7 +90,7 @@ public class TaskFrame extends JFrame {
 		//マウスをクリックした時
 		addButton.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-				DialogWindow dlg = new DialogWindow(null);
+				DialogOfTaskFrame dlg = new DialogOfTaskFrame(null);
 				getContentPane().setLayout(new FlowLayout());
 
 				dlg.actionPerformed(null);

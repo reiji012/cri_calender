@@ -56,48 +56,48 @@ public class TaskMainFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		//タスクの日付と追加するためのボタンを配置するパネル
 		JPanel head = new JPanel();
 		head.setLayout(new BorderLayout(0, 0));
 		contentPane.add(head, BorderLayout.NORTH);
         head.setBackground(Color.GRAY);
 
-		
+
 		//日付
 		JLabel date = new JLabel("今日");
 		head.add(date, BorderLayout.WEST);
         head.setBackground(Color.GRAY);
 
-		
+
 		//追加ボタン
 		JButton addButton = new JButton("+");
 		head.add(addButton, BorderLayout.EAST);
 		addButton.setBackground(Color.GRAY);
 
-		
+
 		//タスクを追加していくパネル
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setBackground(Color.GRAY);
-		
-		
+
+
 		JTextArea textArea = new JTextArea();
 		textArea.setText("タスクはありません");
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setBackground(Color.GRAY);
-		
+
 		addButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 			    DialogWindow dlg = new DialogWindow(null);
 				getContentPane().setLayout(new FlowLayout());
-				
+
 				dlg.actionPerformed(null);
 			}
 
 		});
-		
+
 	}
 
 }
