@@ -4,9 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class TaskFrame extends JFrame {
+public class TaskFrame extends JFrame{
 
 	private JPanel contentPane;
 	private JPanel head;
@@ -25,9 +26,10 @@ public class TaskFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 
-	/**
-	 * Launch the application.
-	 */
+	public JTextArea getTextArea() {
+		return textArea;
+	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -82,26 +84,37 @@ public class TaskFrame extends JFrame {
 
 		//テキストエリアを追加する
 		textArea = new JTextArea();
-		textArea.setText("タスクはありません");
+		textArea.setText("イベントなし");
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setBackground(Color.GRAY);
 
-		//マウスをクリックした時
-		addButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e){
-				DialogOfTaskFrame dlg = new DialogOfTaskFrame(null);
-				getContentPane().setLayout(new FlowLayout());
+		//ダイアログの親をTaskFrameにする
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this);
+		dlg.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {
+				textArea.setEditable(true);
+				textArea.setText("");
+				textArea.paste();
+				//テキストエリアが空欄のとき
+				if(textArea.getText().equals("")) {
+					textArea.setText("イベントなし");
+				}
 
-				dlg.actionPerformed(null);
-
+				textArea.setEditable(false);
 			}
 		});
 
 
 
+		//マウスをクリックした時
+		addButton.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
 
+				dlg.setVisible(true);
 
+			}
+		});
 
 	}
 

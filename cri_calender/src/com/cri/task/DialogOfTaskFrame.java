@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,6 +36,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JComboBox yearsBox, monthsBox, daysBox;
 	private JButton cancel, change;
 
+	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
 	DialogOfTaskFrame(JFrame owner){
 		super(owner);
@@ -41,7 +45,6 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		setContentPane(contentPane);
 
 		setSize(228,184);
-		setVisible(true);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 
@@ -131,14 +134,28 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		cancel.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		change = new JButton("変更");
 		change.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		//changeボタン押下時
+		change.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textArea.getText().equals("")) {
+					StringSelection ss = new StringSelection(textArea.getText());
+					clipboard.setContents(ss, null);
+				}else {
+					textArea.selectAll();
+					textArea.copy();
+				}
+				dispose();
+			}
+		});
 
 		buttonArea.add(cancel);
 		buttonArea.add(change);
 
-
 	}
 
 	public void actionPerformed(ActionEvent e){
+
+		setVisible(true);
 
 	}
 
