@@ -1,4 +1,4 @@
-package com.cri.task;
+package com.cri.task.test;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
