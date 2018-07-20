@@ -36,7 +36,13 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JComboBox yearsBox, monthsBox, daysBox;
 	private JButton cancel, change;
 
+	//クリップボードの取得
 	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+
+
+
+
 
 	DialogOfTaskFrame(JFrame owner){
 		super(owner);
@@ -65,7 +71,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textField.setPreferredSize(new Dimension(140,15));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
+
 		contentPane.add(textField,gbc);
+
 
 		//コンボボックス等を配置するパネル
 		gbc.gridy = 2;
@@ -118,7 +126,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		//イベントの内容
 		textArea = new JTextArea();
-		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		scrollPane.setViewportView(textArea);
 
 		//ボタンを配置する場所
@@ -135,19 +143,14 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		change = new JButton("変更");
 		change.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		//changeボタン押下時
-		change.addActionListener(new ActionListener() {
+		change.addActionListener(this);
+
+		//cancelボタン押下時
+		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textArea.getText().equals("")) {
-					StringSelection ss = new StringSelection(textArea.getText());
-					clipboard.setContents(ss, null);
-				}else {
-					textArea.selectAll();
-					textArea.copy();
-				}
-				dispose();
+				setVisible(false);
 			}
 		});
-
 		buttonArea.add(cancel);
 		buttonArea.add(change);
 
@@ -157,6 +160,20 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		setVisible(true);
 
+
+		//テキストエリアが空のときクリップボードを空にする
+		if(textArea.getText().equals("")) {
+			StringSelection ss = new StringSelection(textArea.getText());
+			clipboard.setContents(ss, null);
+		}else {
+			textArea.selectAll();
+			textArea.copy();
+		}
+		dispose();
+
 	}
+
+
+
 
 }

@@ -97,9 +97,10 @@ public class TaskFrame extends JFrame{
 				textArea.setText("");
 				textArea.paste();
 				//テキストエリアが空欄のとき
-				if(textArea.getText().equals("")) {
+				if(textArea.getText().trim().equals("")) {
 					textArea.setText("イベントなし");
 				}
+
 
 				textArea.setEditable(false);
 			}
@@ -112,6 +113,7 @@ public class TaskFrame extends JFrame{
 			public void mouseClicked(MouseEvent e){
 
 				dlg.setVisible(true);
+
 
 			}
 		});
