@@ -4,9 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class TaskMainFrame extends JFrame {
+public class TaskMainFrame extends JFrame{
 
 	private JPanel contentPane;
 	private JPanel head;
@@ -25,9 +26,10 @@ public class TaskMainFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 
-	/**
-	 * Launch the application.
-	 */
+	public JTextArea getTextArea() {
+		return textArea;
+	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,61 +45,68 @@ public class TaskMainFrame extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @return
 	 */
-	public TaskMainFrame() {
+
+	public TaskMainFrame(){
 		setForeground(Color.GRAY);
 		setType(Type.UTILITY);
 		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(450, 300);
+		setSize(450,300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setPreferredSize(new Dimension(475, 220));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBorder(new EmptyBorder(5,5,5,5));
+		contentPane.setLayout(new BorderLayout(0,0));
+		contentPane.setBackground(Color.GRAY);
 		setContentPane(contentPane);
 
-		//タスクの日付と追加するためのボタンを配置するパネル
-		JPanel head = new JPanel();
-		head.setLayout(new BorderLayout(0, 0));
+		head = new JPanel();
+		head.setLayout(new BorderLayout(0,0));
 		contentPane.add(head, BorderLayout.NORTH);
-        head.setBackground(Color.GRAY);
 
-
-		//日付
-		JLabel date = new JLabel("今日");
+		//日付を追加する
+		date = new JLabel("日付");
 		head.add(date, BorderLayout.WEST);
-        head.setBackground(Color.GRAY);
+		head.setBackground(Color.GRAY);
 
-
-		//追加ボタン
-		JButton addButton = new JButton("+");
+		//ボタンを追加する
+		addButton = new JButton("+");
 		head.add(addButton, BorderLayout.EAST);
 		addButton.setBackground(Color.GRAY);
 
-
-		//タスクを追加していくパネル
-		JScrollPane scrollPane = new JScrollPane();
+		//スクロールパネルを追加する
+		scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setBackground(Color.GRAY);
+		setBackground(Color.GRAY);
 
-
-		JTextArea textArea = new JTextArea();
-		textArea.setText("タスクはありません");
+		//テキストエリアを追加する
+		textArea = new JTextArea();
+		textArea.setText("");
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setBackground(Color.GRAY);
 
-		addButton.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-			    DialogWindow dlg = new DialogWindow(null);
-				getContentPane().setLayout(new FlowLayout());
-
-				dlg.actionPerformed(null);
+		//ダイアログの親をTaskFrameにする
+		DialogWindow dlg = new DialogWindow(this);
+		dlg.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {			
+				setTaskText(dlg.taskContent);
 			}
-
 		});
 
+		//マウスをクリックした時
+		addButton.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				dlg.setVisible(true);
+			}
+		});
+
+	}
+	
+	private void setTaskText(String taskContent) {
+			textArea.append(taskContent + "\r\n");
 	}
 
 }
