@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import com.cri.calendarBase.CalendarMainFrame;
 import com.cri.task.TaskFrame;
+import com.cri.task.test.TaskMainFrame;
 import com.cri.watch.DateMainFrame;
 import com.cri.watch.WatchMainFrame;
 
@@ -132,9 +133,19 @@ public class MainFrame extends JFrame {
 				//dateLabelに表示するもの
 				dateLabel.setText(dateMainFrame.getNowDate());
 
+				JPanel panel = new JPanel();
+				panel.setBounds(0, 564, 475, 220);
+				TaskMainFrame taskMainFrame = new TaskMainFrame();
+				JPanel taskContentPane = taskMainFrame.taskContentPane;
+				taskContentPane.setBounds(0,600,475, 300);
+				contentPane.add(taskContentPane);
+
 				//他の処理との処理を柔軟に行う（スレッド）
 				SwingUtilities.invokeLater(this);
 			}
 		});
+
+
+//		setContentPane(taskContentPane);
 	}
 }

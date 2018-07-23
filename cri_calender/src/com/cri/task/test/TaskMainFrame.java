@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 public class TaskMainFrame extends JFrame{
 
-	private JPanel contentPane;
+	public JPanel taskContentPane;
 	private JPanel head;
 	private JLabel date;
 	private JButton addButton;
@@ -54,17 +54,17 @@ public class TaskMainFrame extends JFrame{
 		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(450,300);
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.GRAY);
-		contentPane.setPreferredSize(new Dimension(475, 220));
-		contentPane.setBorder(new EmptyBorder(5,5,5,5));
-		contentPane.setLayout(new BorderLayout(0,0));
-		contentPane.setBackground(Color.GRAY);
-		setContentPane(contentPane);
+		taskContentPane = new JPanel();
+		taskContentPane.setBackground(Color.GRAY);
+		taskContentPane.setPreferredSize(new Dimension(403, 220));
+		taskContentPane.setBorder(new EmptyBorder(5,5,5,5));
+		taskContentPane.setLayout(new BorderLayout(0,0));
+		taskContentPane.setBackground(Color.GRAY);
+		taskContentPane.setBounds(0, 500, 4500, 300);
 
 		head = new JPanel();
 		head.setLayout(new BorderLayout(0,0));
-		contentPane.add(head, BorderLayout.NORTH);
+		taskContentPane.add(head, BorderLayout.NORTH);
 
 		//日付を追加する
 		date = new JLabel("日付");
@@ -78,7 +78,7 @@ public class TaskMainFrame extends JFrame{
 
 		//スクロールパネルを追加する
 		scrollPane = new JScrollPane();
-		contentPane.add(scrollPane, BorderLayout.CENTER);
+		taskContentPane.add(scrollPane, BorderLayout.CENTER);
 		setBackground(Color.GRAY);
 
 		//テキストエリアを追加する
