@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,6 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class DialogOfTaskFrame extends JDialog implements ActionListener{
+	
+	public String taskText;
 
 	private JPanel contentPane;
 	private JPanel boxArea;
@@ -157,18 +158,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e){
-
-		setVisible(true);
-
-
-		//テキストエリアが空のときクリップボードを空にする
-		if(textArea.getText().equals("")) {
-			StringSelection ss = new StringSelection(textArea.getText());
-			clipboard.setContents(ss, null);
-		}else {
-			textArea.selectAll();
-			textArea.copy();
-		}
+		taskText = textArea.getText();
+		textArea.setText("");
+		textField.setText("");
 		dispose();
 
 	}
