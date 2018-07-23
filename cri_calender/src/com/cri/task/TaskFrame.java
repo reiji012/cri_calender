@@ -62,6 +62,7 @@ public class TaskFrame extends JFrame{
 		contentPane.setBackground(Color.GRAY);
 		setContentPane(contentPane);
 
+
 		head = new JPanel();
 		head.setLayout(new BorderLayout(0,0));
 		contentPane.add(head, BorderLayout.NORTH);
@@ -83,7 +84,7 @@ public class TaskFrame extends JFrame{
 
 		//テキストエリアを追加する
 		textArea = new JTextArea();
-		textArea.setText("");
+		textArea.setText("イベントなし");
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		textArea.setBackground(Color.GRAY);
@@ -92,10 +93,20 @@ public class TaskFrame extends JFrame{
 		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this);
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
-			
-				setTaskText(dlg.taskText);
+				textArea.setEditable(true);
+				textArea.setText("");
+				textArea.paste();
+				//テキストエリアが空欄のとき
+				if(textArea.getText().trim().equals("")) {
+					textArea.setText("イベントなし");
+				}
+
+
+				textArea.setEditable(false);
 			}
 		});
+
+
 
 		//マウスをクリックした時
 		addButton.addMouseListener(new MouseAdapter(){
@@ -107,10 +118,6 @@ public class TaskFrame extends JFrame{
 			}
 		});
 
-	}
-	
-	public void setTaskText(String text) {
-			textArea.append(text + "\r\n");
 	}
 
 }
