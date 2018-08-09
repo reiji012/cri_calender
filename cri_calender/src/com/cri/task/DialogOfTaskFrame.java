@@ -7,11 +7,9 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +23,12 @@ import javax.swing.JTextField;
 
 public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
+	private String taskTitle;
+	private String taskText;
+	private String taskDate;
+	public  String taskContent;
+	private File file;
+
 	private JPanel contentPane;
 	private JPanel boxArea;
 	private JPanel buttonArea;
@@ -33,16 +37,8 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 	private JTextField textField;
-	private JComboBox yearsBox, monthsBox, daysBox;
+	private JComboBox yearsBox, monthsBox, dateBox;
 	private JButton cancel, change;
-
-	//クリップボードの取得
-	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-
-
-
-
-
 
 	DialogOfTaskFrame(JFrame owner){
 		super(owner);
@@ -96,11 +92,11 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 		monthsBox.setPreferredSize(new Dimension(40,20));
 
-		daysBox = new JComboBox();
+		dateBox = new JComboBox();
 		for(int i=1;i<=31;i++){
-			daysBox.addItem(i);
+			dateBox.addItem(i);
 		}
-		daysBox.setPreferredSize(new Dimension(40,20));
+		dateBox.setPreferredSize(new Dimension(40,20));
 
 
 		//コンボボックスに付属するラベル
@@ -113,7 +109,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		boxArea.add(year);
 		boxArea.add(monthsBox);
 		boxArea.add(month);
-		boxArea.add(daysBox);
+		boxArea.add(dateBox);
 		boxArea.add(day);
 
 		//スクロールパネル
@@ -158,21 +154,44 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 	public void actionPerformed(ActionEvent e){
 
-		setVisible(true);
-
-
-		//テキストエリアが空のときクリップボードを空にする
-		if(textArea.getText().equals("")) {
-			StringSelection ss = new StringSelection(textArea.getText());
-			clipboard.setContents(ss, null);
-		}else {
-			textArea.selectAll();
-			textArea.copy();
-		}
+		setTaskContent();
+		textArea.setText("");
+		textField.setText("");
 		dispose();
-
 	}
 
+	private void setTaskContent() {
+
+		String year;
+		String month;
+		String date;
+
+		taskTitle = textField.getText() + "：";
+		taskText = textArea.getText();
+
+		year = yearsBox.getSelectedItem().toString();
+		month = monthsBox.getSelectedItem().toString();
+		date = dateBox.getSelectedItem().toString();
+
+		taskDate = year + "年" + month + "月" + date + "日：";
+		taskContent = taskDate  + taskTitle + taskText;
+
+
+		TaskXml xml = new TaskXml();
+		//ファイルを指定
+		file = new File("taskXML.xml");
+		try {
+		//既設のXMLがあれば追加、なければルートノードのみ作成し、追加
+			if(!file.exists()) {
+				xml.createXml();
+			}
+			xml.appendXml(taskDate,taskTitle,taskText);
+
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+	}
 
 
 

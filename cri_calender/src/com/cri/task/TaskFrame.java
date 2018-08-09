@@ -26,10 +26,6 @@ public class TaskFrame extends JFrame{
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 
-	public JTextArea getTextArea() {
-		return textArea;
-	}
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -84,6 +80,7 @@ public class TaskFrame extends JFrame{
 
 		//テキストエリアを追加する
 		textArea = new JTextArea();
+		textArea.setText("");
 		textArea.setText("イベントなし");
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
@@ -93,20 +90,9 @@ public class TaskFrame extends JFrame{
 		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this);
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
-				textArea.setEditable(true);
-				textArea.setText("");
-				textArea.paste();
-				//テキストエリアが空欄のとき
-				if(textArea.getText().trim().equals("")) {
-					textArea.setText("イベントなし");
-				}
-
-
-				textArea.setEditable(false);
+				setTaskText(dlg.taskContent);
 			}
 		});
-
-
 
 		//マウスをクリックした時
 		addButton.addMouseListener(new MouseAdapter(){
@@ -114,10 +100,19 @@ public class TaskFrame extends JFrame{
 
 				dlg.setVisible(true);
 
-
 			}
 		});
 
 	}
 
-}
+	private void setTaskText(String taskContent) {
+
+		//イベントがあれば文字列を追加、なければ書き換え
+		if(textArea.getText().equals("イベントなし")) {
+			textArea.setText(taskContent + "\r\n");
+		}else
+			textArea.append(taskContent + "\r\n");
+		}
+
+	}
+
