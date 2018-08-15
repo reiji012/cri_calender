@@ -134,10 +134,10 @@ public class MainFrame extends JFrame {
 				dateLabel.setText(dateMainFrame.getNowDate());
 
 				JPanel panel = new JPanel();
-				panel.setBounds(0, 564, 475, 220);
+				panel.setBounds(0, 850, 475, 220);
 				TaskMainFrame taskMainFrame = new TaskMainFrame();
 				JPanel taskContentPane = taskMainFrame.taskContentPane;
-				taskContentPane.setBounds(0,600,475, 300);
+				taskContentPane.setBounds(0,560,475, 150);
 				contentPane.add(taskContentPane);
 
 				//他の処理との処理を柔軟に行う（スレッド）

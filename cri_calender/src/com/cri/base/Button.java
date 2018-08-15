@@ -88,7 +88,8 @@ public class Button extends javax.swing.JDialog {
         jTable1.putClientProperty("JTable.autoStartsEdit", Boolean.FALSE);
         
         addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e) {
+            @Override
+			public void windowClosed(WindowEvent e) {
                 btnflag=false;
             }
         });

@@ -39,7 +39,7 @@ class SwingCalendar extends JPanel {
 
         //Calendarクラスのインスタンス化取得
         Calendar cal = Calendar.getInstance();
-       
+
 
         //曜日のLabelの作成
         private JLabel[]    weekLabels = new JLabel[7];
@@ -53,7 +53,7 @@ class SwingCalendar extends JPanel {
         private static final Color DAY_BG = new Color(102,102,102);
         private static final Color DAY_FG = Color.WHITE;
         private static final LineBorder DAY_BORDER = new LineBorder(new Color(102,102,102), 2, false);
-        
+
         //今日のlabel
         private static final Color TODAY_BG = new Color(102, 102, 102);
         private static final Color TODAY_FG = new Color(105,50,50);
@@ -65,6 +65,8 @@ class SwingCalendar extends JPanel {
         private static final String[] WEEK_NAMES = new String[] {"日", "月", "火", "水", "木", "金", "土"};
         private static final String[] MONTH_NAMES = new String[] {"１月", "２月", "３月", "４月", "５月", "６月", "７月", "８月", "９月", "１０月", "１１月", "１２月"};
 
+        String month = MONTH_NAMES[cal.get(Calendar.MONTH)];
+        int todayOfday = cal.get(Calendar.DATE);
         //
         public SwingCalendar() {
                 try {
@@ -90,7 +92,7 @@ class SwingCalendar extends JPanel {
                     	  	if(month.equals(MONTH_NAMES[i])) {
                     	  		targetMonth = i - 1;
                     	  	}
-                    	  	
+
                       }
                       //b1のyearLabelの減少処理
                       if(targetMonth == -1) {
@@ -100,13 +102,13 @@ class SwingCalendar extends JPanel {
                       changeMonth(targetMonth);
                       changeYear(year);
                       updateMonth(cal, true);
-                      
+
                       //todayの有無
                       updateMonth(cal, true);
                       //int today = cal.get(Calendar.DATE);
-                      
-                      
-                      
+
+
+
                     }
                   });
                 /*b2Button*/
@@ -167,7 +169,7 @@ class SwingCalendar extends JPanel {
                         } else if ( i == 6 ) {
                                 weekLabels[i].setForeground(Color.BLUE);
                         }
-                     
+
 
                         dayPanel.add(weekLabels[i]);
                 }
@@ -181,7 +183,7 @@ class SwingCalendar extends JPanel {
                                 dayLabels[i][j].setBackground(DAY_BG);
                                 dayLabels[i][j].setPreferredSize(DAY_LABEL_SIZE);
                                 //dayLabels[i][j].setBorder(new LineBorder(Color.DARK_GRAY, 2, false));
-                               
+
                                 if(WEEK_NAMES.equals("土")){
                                 	dayLabels[i][j].setForeground(Color.BLUE);
                                 }else if(WEEK_NAMES.equals("日")){
@@ -189,10 +191,10 @@ class SwingCalendar extends JPanel {
                                 }
                                 dayPanel.add(dayLabels[i][j]);
                         }
-                        
+
                 }
-            
-                
+
+
 
                 //JPanelインスタンス化
                 JPanel monthPanel = new JPanel();
@@ -256,7 +258,10 @@ class SwingCalendar extends JPanel {
         private void updateMonth(Calendar cal, boolean currentMonth) {
                 int maxDate = cal.getActualMaximum(Calendar.DATE);
                 int today = cal.get(Calendar.DATE);
-                
+
+                System.out.println(today);
+                System.out.println(month);
+
 
                 cal.set(Calendar.DATE, 1);
                 int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -285,17 +290,25 @@ class SwingCalendar extends JPanel {
                                 }
                         }
                 }
-                
-                
+
+
 
                 if( currentMonth) {
                         JLabel l = getDayLabel( today, firstDayOfWeek );
 
+                        String labelMonth = monthLabel.getText();
+                        if (month == labelMonth) {
+                        	JLabel u = getDayLabel( todayOfday, firstDayOfWeek );
+                        	u.setBackground(TODAY_BG);
+                            u.setForeground(TODAY_FG);
+                            u.setBorder(TODAY_BORDER);
+                        	return;
+                        }
                         l.setBackground(TODAY_BG);
                         l.setForeground(TODAY_FG);
                         l.setBorder(TODAY_BORDER);
                 }
-             
+
         }
 
         private JLabel getDayLabel( int day , int firstDayOfWeek ) {
