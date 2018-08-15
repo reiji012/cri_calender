@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class TaskXml{
 
@@ -35,6 +36,7 @@ public class TaskXml{
 		StreamResult result = new StreamResult(os);
 		transformer.transform(source,result);
 	}
+
 	public void appendXml(String time1,String title1,String text1) throws Exception{
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -66,6 +68,33 @@ public class TaskXml{
 		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream("taskXML.xml"));
 		StreamResult result = new StreamResult(outputStreamWriter);
 		transformer.transform(source,result);
+
+	}
+
+	public Element viewXml() throws Exception{
+
+//		List<String> arrayList = new ArrayList<String>();
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse("taskXML.xml");
+
+		//dateノードの数を取得するため
+		NodeList list = document.getElementsByTagName("date");
+		//Node node = ((Element)nodeList.item(0)).getElementsByTagName("date").item(0);
+
+
+//		for(int i=0;i<list.getLength();i++) {
+//
+		Element root = (Element)document.getDocumentElement();
+//			Node node = root.getElementsByTagName("date").item(i);
+//
+//			arrayList.add(node.getTextContent());
+//
+//		}
+//
+//		return arrayList;
+		return root;
 
 	}
 
