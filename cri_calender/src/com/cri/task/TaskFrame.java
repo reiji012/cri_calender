@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -30,8 +31,9 @@ public class TaskFrame extends JFrame{
 
 	private DefaultListModel toDoListModel;
 	private JList toDoList;
-//	private File file;
-//	private TaskXml xml;
+	private File file;
+	private TaskXml xml;
+	private String[] str;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,7 +53,7 @@ public class TaskFrame extends JFrame{
 	 * @return
 	 */
 
-	public TaskFrame(){
+	public TaskFrame() throws Exception{
 		setForeground(Color.GRAY);
 		setType(Type.UTILITY);
 		setBackground(Color.GRAY);
@@ -85,47 +87,25 @@ public class TaskFrame extends JFrame{
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		setBackground(Color.GRAY);
 
-//		//テキストエリアを追加する
-//		textArea = new JTextArea();
-//		textArea.setText("");
-//		textArea.setText("イベントなし");
-//		textArea.setEditable(false);
-//		scrollPane.setViewportView(textArea);
-//		textArea.setBackground(Color.GRAY);
-
 		//リストを追加
 		toDoListModel = new DefaultListModel();
 		toDoList = new JList(toDoListModel);
 		toDoList.setBackground(Color.GRAY);
 		scrollPane.setViewportView(toDoList);
-		toDoListModel.addElement("イベントなし");
-
-//		file = new File("taskXML.xml");
-//		xml = new TaskXml();
-//		if(file.exists()) {
-//
-//			try {
-//				Element root = xml.viewXml();
-//				Node node = root.getElementsByTagName("date").item(0);
-//				toDoListModel.addElement(node.getTextContent());
-//
-//				Node node = ((Element)list.item(0)).getElementsByTagName("date").item(0);
-//				toDoListModel.addElement(node.getTextContent());
-//				for(int i=0;i<list.getLength();i++) {
-//
-//					Node node = ((Element)list.item(0)).getElementsByTagName("date").item(i);
-//					toDoListModel.addElement(node.getTextContent());
-//				}
-//			} catch (Exception e1) {
-//				e1.printStackTrace();
-//			}
-//
-//
-//
-//		}
 
 
-
+		//ファイル名の指定
+		file = new File("taskXML.xml");
+		xml = new TaskXml();
+		//ファイルがあれば読み込む、なければ、イベントなし
+		if(file.exists()) {
+			str = xml.viewXml();
+			for(int i=0;i<str.length;i++) {
+				toDoListModel.addElement(str[i]);
+			}
+		}else {
+			toDoListModel.addElement("イベントなし");
+		}
 
 		//ダイアログの親をTaskFrameにする
 		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this);
@@ -147,14 +127,6 @@ public class TaskFrame extends JFrame{
 	}
 
 	private void setTaskText(String taskContent) {
-
-//		//イベントがあれば文字列を追加、なければ書き換え
-//		if(textArea.getText().equals("イベントなし")) {
-//
-//			textArea.setText(taskContent + "\r\n");
-//		}else
-//			textArea.append(taskContent + "\r\n");
-//		}
 
 		//イベントがあれば追加、なければ書き換え
 		if(toDoListModel.firstElement().equals("イベントなし")) {
