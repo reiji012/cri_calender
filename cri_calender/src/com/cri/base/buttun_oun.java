@@ -27,7 +27,6 @@ public class buttun_oun {
         }
 }
 
-
 class SwingCalendar extends JPanel {
 	//月のLabelの宣言
         private JLabel  monthLabel = new JLabel();
@@ -47,7 +46,7 @@ class SwingCalendar extends JPanel {
         //日にちのLabelの作成
         private JLabel[][]  dayLabels = new JLabel[6][7];
 
-        //各パーツのColorの作成
+        //曜日パネルの色
         private static final Color WEEK_BG = new Color(102,102,102);
         //private static final LineBorder WEEK_BORDER = new LineBorder(new Color(160,160,230), 2, false);
         
@@ -57,19 +56,20 @@ class SwingCalendar extends JPanel {
         private static final LineBorder DAY_BORDER = new LineBorder(new Color(102,102,102), 2, false);
 
         //今日のlabel
-        private static final Color TODAY_BG = new Color(102, 102, 102);
-        private static final Color TODAY_FG = new Color(105,50,50);
-        private static final LineBorder TODAY_BORDER = new LineBorder(new Color(175,50,50), 2, false);
+        private static final Color TODAY_BG = new Color(102, 102, 102); //背景
+        //private static final Color TODAY_FG = new Color(105,50,50); //文字
+        private static final LineBorder TODAY_BORDER = new LineBorder(new Color(255,255,255), 2, false); //枠
 
 
         //日付のLabel
         private static final Dimension DAY_LABEL_SIZE = new Dimension(50,50);
         private static final String[] WEEK_NAMES = new String[] {"日", "月", "火", "水", "木", "金", "土"};
         private static final String[] MONTH_NAMES = new String[] {"１月", "２月", "３月", "４月", "５月", "６月", "７月", "８月", "９月", "１０月", "１１月", "１２月"};
-        //private static final String[] DAY_NAMES = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12","13","14"};
+       
         
         String month = MONTH_NAMES[cal.get(Calendar.MONTH)];
         int todayOfday = cal.get(Calendar.DATE);
+        
         //
         public SwingCalendar() {
                 try {
@@ -99,6 +99,7 @@ class SwingCalendar extends JPanel {
 
                       }
                       //b1のyearLabelの減少処理
+                      //targetMonth = 当月
                       if(targetMonth == -1) {
                     	  	targetMonth = 11;
                     	  	year = cal.get(Calendar.YEAR);
@@ -106,9 +107,15 @@ class SwingCalendar extends JPanel {
                       changeMonth(targetMonth);
                       changeYear(year);
                       updateMonth(cal, true);
+                      
+                      
 
+                      System.out.println("targetmanth" + targetMonth); //確認
+                      System.out.println("year" + year); //確認
                     }
+                    
                   });
+                
                 /*b2Button*/
                 b2.addActionListener(new ActionListener() {
                   @Override
@@ -140,6 +147,7 @@ class SwingCalendar extends JPanel {
                 dm.width += 10; //dm.height += 1;
                 monthLabel.setPreferredSize(dm);
                 monthLabel.setForeground(DAY_FG);
+               
 
                 /* YEAR Label */
                 Dimension dy = yearLabel.getPreferredSize();
@@ -154,6 +162,7 @@ class SwingCalendar extends JPanel {
                 layout.setVgap(0);
                 dayPanel.setLayout(layout);
                 dayPanel.setBackground(DAY_BG);
+                
 
                 //曜日の配列
                 for( int i=0; i<7; i++) {
@@ -170,7 +179,7 @@ class SwingCalendar extends JPanel {
                                 weekLabels[i].setForeground(Color.BLUE);
                         }
 
-                        System.out.println("kakunin" + i);
+                        //System.out.println("kakunin" + i); //確認
                         dayPanel.add(weekLabels[i]);
                 }
 
@@ -179,10 +188,9 @@ class SwingCalendar extends JPanel {
                 //日付の配列
                 for( int i=0; i<6; i++) {
                     for( int j=0; j<7; j++) {
-                    	dayLabels[i][j] = new DayLabel("ttt");
-                            System.out.println("i" + i); //確認
-                            System.out.println("j" + j); //確認
-                            
+                    	dayLabels[i][j] = new DayLabel("");
+                            //System.out.println("i" + i); //確認
+                            //System.out.println("j" + j); //確認
                             
                             if(j == 0 ) {
                             	dayLabels[i][j].setForeground(Color.RED);
@@ -190,7 +198,6 @@ class SwingCalendar extends JPanel {
                             	dayLabels[i][j].setForeground(Color.BLUE);
                             }
                          
-                            dayPanel.add(dayLabels[i][j]);
                                 dayPanel.add(dayLabels[i][j]);
                         }
 
@@ -229,7 +236,8 @@ class SwingCalendar extends JPanel {
                 String s = Integer.toString(year);
                 yearLabel.setText(s);
 
-
+                
+                
                 //updateMonthメソッドの呼び出し
                 updateMonth(cal, true);
         }
@@ -261,17 +269,18 @@ class SwingCalendar extends JPanel {
                 int maxDate = cal.getActualMaximum(Calendar.DATE); //その月の最大日を取得
                 int today = cal.get(Calendar.DATE); //今日の日付取得
 
-                System.out.println(today);
-                System.out.println(month);
-
-
-                cal.set(Calendar.DATE, 1); //次月１日を取得
+                System.out.println("今日" + today); //確認
+                System.out.println("month" + month); //確認
+                System.out.println("最大日" + maxDate); //確認
+                
+                
+                //cal.set(Calendar.DATE, 1); //次月１日を取得
                
                 //月の初めを取得 
                 int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                System.out.println("月初" + firstDayOfWeek);
+                System.out.println("月初" + firstDayOfWeek); //確認
                 
-                //変数llにdayLabel格納
+                //最大日以降非表示
                 for( JLabel[] ll : dayLabels) {
                 		//変数lにll格納
                         for( JLabel l : ll ) {
@@ -280,15 +289,18 @@ class SwingCalendar extends JPanel {
                         }
                 }
 
+                //月の最大日までループ
                 for( int day=1; day<=maxDate; day++ ) {
                         getDayLabel( day, firstDayOfWeek ).setText(Integer.toString(day));
+                        //System.out.println("day" + day); //確認
                 }
+                
 
                 for( int i=0; i<dayLabels.length; i++) {
                         for( int j=0; j<dayLabels[i].length; j++) {
                                 JLabel l = dayLabels[i][j];
                                 l.setBackground(DAY_BG);
-                                //l.setForeground(DAY_FG);
+                                //l.setForeground(Color.BLUE);
                                 l.setBorder(DAY_BORDER);
 
                                 if( l.getText().length() != 0 ) {
@@ -297,25 +309,27 @@ class SwingCalendar extends JPanel {
                                         l.setVisible(false);
                                 }
                         }
+                        
                 }
 
-
-
+                
                 if( currentMonth) {
                         JLabel l = getDayLabel( today, firstDayOfWeek );
 
                        String labelMonth = monthLabel.getText();
-                        if (month == labelMonth) {
+                        if (month == labelMonth) {       //month = 1月〜12月,labelMonth = 表示されている1月〜12月
                         	JLabel u = getDayLabel( todayOfday, firstDayOfWeek );
                         	u.setBackground(TODAY_BG);
-                            u.setForeground(TODAY_FG);
+                            //u.setForeground(TODAY_FG);★ 
                             u.setBorder(TODAY_BORDER);
+                            System.out.println("todayofday" + todayOfday); //確認
                         	return;
                         }
                         
+                        
                         l.setBackground(TODAY_BG);
-                        l.setForeground(TODAY_FG);
-                        l.setBorder(TODAY_BORDER);
+                        //l.setForeground(TODAY_FG);★
+                        //l.setBorder(TODAY_BORDER);★
                       
                 }}
                 
