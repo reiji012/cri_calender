@@ -10,9 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.cri.base.SwingCalendarBase;
 import com.cri.calendarBase.CalendarMainFrame;
 import com.cri.task.TaskFrame;
-import com.cri.task.test.TaskMainFrame;
 import com.cri.watch.DateMainFrame;
 import com.cri.watch.WatchMainFrame;
 
@@ -23,7 +23,9 @@ public class MainFrame extends JFrame {
 	WatchMainFrame watchMainFrame = new WatchMainFrame();
 	DateMainFrame dateMainFrame = new DateMainFrame();
 	CalendarMainFrame calendarMainFrame = new CalendarMainFrame();
-	TaskFrame taskFrame = new TaskFrame();
+static //	TaskFrame taskFrame = new TaskFrame();
+	TaskFrame taskFrame;
+
 
 	/**
 	 * Launch the application.
@@ -32,6 +34,7 @@ public class MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					taskFrame = new TaskFrame();
 					MainFrame frame = new MainFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -123,6 +126,16 @@ public class MainFrame extends JFrame {
 		dateLabel.setFont(new Font("", Font.PLAIN, 15));
 		//dateLabelの位置を指定
 		dateLabel.setBounds(35,30,450,40);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 850, 475, 220);
+		JPanel taskContentPane = taskFrame.contentPane;
+		taskContentPane.setBounds(0,560,475, 150);
+		contentPane.add(taskContentPane);
+		
+		JPanel basePanel = new SwingCalendarBase();
+		basePanel.setBounds(0,130,460,350);
+		contentPane.add(basePanel);
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -132,13 +145,6 @@ public class MainFrame extends JFrame {
 
 				//dateLabelに表示するもの
 				dateLabel.setText(dateMainFrame.getNowDate());
-
-				JPanel panel = new JPanel();
-				panel.setBounds(0, 850, 475, 220);
-				TaskMainFrame taskMainFrame = new TaskMainFrame();
-				JPanel taskContentPane = taskMainFrame.taskContentPane;
-				taskContentPane.setBounds(0,560,475, 150);
-				contentPane.add(taskContentPane);
 
 				//他の処理との処理を柔軟に行う（スレッド）
 				SwingUtilities.invokeLater(this);

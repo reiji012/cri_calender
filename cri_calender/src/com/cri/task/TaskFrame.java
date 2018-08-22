@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 public class TaskFrame extends JFrame{
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JPanel head;
 	private JLabel date;
 	private JButton addButton;
