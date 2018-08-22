@@ -36,16 +36,16 @@ public class SwingCalendarBase extends JPanel {
         private JLabel[][]  dayLabels = new JLabel[6][7];
 
         //曜日パネルの色
-        private static final Color WEEK_BG = new Color(102,102,102);
+        private static final Color WEEK_BG = new Color(128,128,128);
         //private static final LineBorder WEEK_BORDER = new LineBorder(new Color(160,160,230), 2, false);
         
         //日付パネルの色
-        private static final Color DAY_BG = new Color(102,102,102);
-        private static final Color DAY_FG = Color.BLACK;
-        private static final LineBorder DAY_BORDER = new LineBorder(new Color(102,102,102), 2, false);
+        private static final Color DAY_BG = new Color(128,128,128);
+        private static final Color DAY_FG = Color.BLACK;//2018年、8月色
+        private static final LineBorder DAY_BORDER = new LineBorder(new Color(128,128,128), 2, false); //日付枠線
 
         //今日のlabel
-        private static final Color TODAY_BG = new Color(102, 102, 102); //背景
+        private static final Color TODAY_BG = new Color(128,128,128); //背景
         //private static final Color TODAY_FG = new Color(105,50,50); //文字
         private static final LineBorder TODAY_BORDER = new LineBorder(new Color(255,255,255), 2, false); //枠
 
@@ -53,7 +53,7 @@ public class SwingCalendarBase extends JPanel {
         //日付のLabel
         private static final Dimension DAY_LABEL_SIZE = new Dimension(50,50);
         private static final String[] WEEK_NAMES = new String[] {"日", "月", "火", "水", "木", "金", "土"};
-        private static final String[] MONTH_NAMES = new String[] {"１月", "２月", "３月", "４月", "５月", "６月", "７月", "８月", "９月", "１０月", "１１月", "１２月"};
+        private static final String[] MONTH_NAMES = new String[] {"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"};
        
         
         String month = MONTH_NAMES[cal.get(Calendar.MONTH)];
@@ -131,20 +131,20 @@ public class SwingCalendarBase extends JPanel {
                   }
                 });
 
-                /* MONTH Label */
+                /* MONTH Label *///8月
                 Dimension dm = monthLabel.getPreferredSize();
                 dm.width += 10; //dm.height += 1;
                 monthLabel.setPreferredSize(dm);
                 monthLabel.setForeground(DAY_FG);
                
 
-                /* YEAR Label */
+                /* YEAR Label *///2018年
                 Dimension dy = yearLabel.getPreferredSize();
                 dy.width += 10; //dy.height += 1;
                 yearLabel.setPreferredSize(dy);
                 yearLabel.setForeground(DAY_FG);
 
-                /* DAY PANEL */
+                /* DAY PANEL *///一番下のパネル
                 JPanel dayPanel = new JPanel();
                 GridLayout layout = new GridLayout(7, 7);
                 layout.setHgap(0);
@@ -203,7 +203,7 @@ public class SwingCalendarBase extends JPanel {
                 monthPanel.add(monthLabel);
                 monthPanel.add(b1);
                 monthPanel.add(b2);
-                //DayColorの設定
+                //DayColorの設定//2018~>のパネル
                 monthPanel.setBackground(DAY_BG);
 
 
@@ -214,7 +214,7 @@ public class SwingCalendarBase extends JPanel {
 
 
                 //年月ボタン表示パネル、日にちパネルの追加
-                add(monthPanel);
+                //add(monthPanel);
                 add(dayPanel);
 
 
@@ -222,7 +222,7 @@ public class SwingCalendarBase extends JPanel {
                 monthLabel.setText(MONTH_NAMES[cal.get(Calendar.MONTH)]);
                 //今年のデータを取得、ラベルに表記
                 int year = cal.get(Calendar.YEAR);
-                String s = Integer.toString(year);
+                String s = Integer.toString(year) + "年";
                 yearLabel.setText(s);
 
                 
@@ -245,7 +245,7 @@ public class SwingCalendarBase extends JPanel {
          * @param year  表示する年
          */
         private void changeYear(int year) {
-        		String s = Integer.toString(year);
+        		String s = Integer.toString(year) + "年";
         			yearLabel.setText(s);
     }
 

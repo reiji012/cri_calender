@@ -134,7 +134,8 @@ static //	TaskFrame taskFrame = new TaskFrame();
 		contentPane.add(taskContentPane);
 		
 		JPanel basePanel = new SwingCalendarBase();
-		basePanel.setBounds(0,130,460,350);
+		basePanel.setBounds(0,130,475,440);
+		basePanel.setBackground(Color.GRAY);
 		contentPane.add(basePanel);
 
 		SwingUtilities.invokeLater(new Runnable() {
