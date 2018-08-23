@@ -24,7 +24,6 @@ public class SwingCalendarBase extends JPanel {
         private JLabel  yearLabel = new JLabel();
     //Buttunの作成
         private JButton b1 = new JButton("<");
-
         private JButton b2 = new JButton(">");
 
         //Calendarクラスのインスタンス化取得
@@ -145,7 +144,7 @@ public class SwingCalendarBase extends JPanel {
                 dy.width += 10; //dy.height += 1;
                 yearLabel.setPreferredSize(dy);
                 yearLabel.setForeground(DAY_FG);
-                yearLabel.setBounds(35,30,450,40);
+                
 
                 /* DAY PANEL *///一番下のパネル
                 JPanel dayPanel = new JPanel();
@@ -221,6 +220,7 @@ public class SwingCalendarBase extends JPanel {
                 //b1.setMargin(new Insets(10, 10, 10, 10));
                 //monthPanel.add(Box.createRigidArea(new Dimension(-10,0)));
                 monthPanel.add(b2);
+                
                 //DayColorの設定//2018~>のパネル
                 monthPanel.setBackground(DAY_BG);
 
@@ -228,7 +228,7 @@ public class SwingCalendarBase extends JPanel {
                 //Layoutの設定
                 setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                 GridLayout gl = new GridLayout(1,2);
-                gl.setHgap(100); gl.setVgap(10); //間隔の指定
+                gl.setHgap(10); gl.setVgap(10); //間隔の指定
 
 
                 //年月ボタン表示パネル、日にちパネルの追加
