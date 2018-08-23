@@ -137,13 +137,15 @@ public class SwingCalendarBase extends JPanel {
                 dm.width += 10; //dm.height += 1;
                 monthLabel.setPreferredSize(dm);
                 monthLabel.setForeground(DAY_FG);
+                monthLabel.setHorizontalTextPosition(JLabel.RIGHT);
                
 
                 /* YEAR Label *///2018年
                 Dimension dy = yearLabel.getPreferredSize();
-                dy.width += 10; //dy.height += 1;
+                dy.width += 30; //dy.height += 1;
                 yearLabel.setPreferredSize(dy);
                 yearLabel.setForeground(DAY_FG);
+                //yearLabel.setHorizontalAlignment(JLabel.CENTER);
                 
 
                 /* DAY PANEL *///一番下のパネル
@@ -211,15 +213,19 @@ public class SwingCalendarBase extends JPanel {
                 monthPanel.add(yearLabel);
                 
                 //yearLabelとmonthLabelの間に余白挿入
-                monthPanel.add(Box.createGlue());
+                //monthPanel.add(Box.createGlue());
                 monthPanel.add(monthLabel);
                 
-                //monthLabelとb1の間に余白挿入
+                //monthLabelとb1の間に余白4つ挿入
+                monthPanel.add(Box.createGlue());
+                monthPanel.add(Box.createGlue());
+                monthPanel.add(Box.createGlue());
                 monthPanel.add(Box.createGlue());
                 monthPanel.add(b1);
                 //b1.setMargin(new Insets(10, 10, 10, 10));
                 //monthPanel.add(Box.createRigidArea(new Dimension(-10,0)));
                 monthPanel.add(b2);
+                monthPanel.add(Box.createGlue());
                 
                 //DayColorの設定//2018~>のパネル
                 monthPanel.setBackground(DAY_BG);
@@ -242,6 +248,7 @@ public class SwingCalendarBase extends JPanel {
                 int year = cal.get(Calendar.YEAR);
                 String s = Integer.toString(year) + "年";
                 yearLabel.setText(s);
+                //yearLabel.setHorizontalAlignment(JLabel.CENTER);
 
                 
                 
