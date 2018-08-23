@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ public class SwingCalendarBase extends JPanel {
         private JLabel  yearLabel = new JLabel();
     //Buttunの作成
         private JButton b1 = new JButton("<");
+
         private JButton b2 = new JButton(">");
 
         //Calendarクラスのインスタンス化取得
@@ -143,10 +145,11 @@ public class SwingCalendarBase extends JPanel {
                 dy.width += 10; //dy.height += 1;
                 yearLabel.setPreferredSize(dy);
                 yearLabel.setForeground(DAY_FG);
+                yearLabel.setBounds(35,30,450,40);
 
                 /* DAY PANEL *///一番下のパネル
                 JPanel dayPanel = new JPanel();
-                GridLayout layout = new GridLayout(7, 7);
+                GridLayout layout = new GridLayout(7,7);
                 layout.setHgap(0);
                 layout.setVgap(0);
                 dayPanel.setLayout(layout);
@@ -196,12 +199,27 @@ public class SwingCalendarBase extends JPanel {
 
                 //JPanelインスタンス化
                 JPanel monthPanel = new JPanel();
+                //SpringLayout layout1 = new SpringLayout();
+                //monthPanel.setLayout(layout1);
+                //layout1.putConstraint(SpringLayout.WEST, yearLabel, 0, SpringLayout.WEST, weekLabels[0]);
+                
                 //GridLayoutの追加
                 monthPanel.setLayout(new GridLayout());
-                //Label,Buttonの追加
+                
+                //Label,Buttonの追加//
+                //yearLabelの左に余白挿入
+                monthPanel.add(Box.createGlue());
                 monthPanel.add(yearLabel);
+                
+                //yearLabelとmonthLabelの間に余白挿入
+                monthPanel.add(Box.createGlue());
                 monthPanel.add(monthLabel);
+                
+                //monthLabelとb1の間に余白挿入
+                monthPanel.add(Box.createGlue());
                 monthPanel.add(b1);
+                //b1.setMargin(new Insets(10, 10, 10, 10));
+                //monthPanel.add(Box.createRigidArea(new Dimension(-10,0)));
                 monthPanel.add(b2);
                 //DayColorの設定//2018~>のパネル
                 monthPanel.setBackground(DAY_BG);
@@ -210,11 +228,11 @@ public class SwingCalendarBase extends JPanel {
                 //Layoutの設定
                 setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
                 GridLayout gl = new GridLayout(1,2);
-                gl.setHgap(10); gl.setVgap(10);
+                gl.setHgap(100); gl.setVgap(10); //間隔の指定
 
 
                 //年月ボタン表示パネル、日にちパネルの追加
-                //add(monthPanel);
+                add(monthPanel);
                 add(dayPanel);
 
 
