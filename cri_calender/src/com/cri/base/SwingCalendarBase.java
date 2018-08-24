@@ -18,11 +18,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 
 public class SwingCalendarBase extends JPanel {
-	//月のLabelの宣言
+		//月のLabelの宣言
         private JLabel  monthLabel = new JLabel();
-    //年のLabelの宣言
+        //年のLabelの宣言
         private JLabel  yearLabel = new JLabel();
-    //Buttunの作成
+        //Buttunの作成
         private JButton b1 = new JButton("<");
         private JButton b2 = new JButton(">");
 
@@ -142,10 +142,10 @@ public class SwingCalendarBase extends JPanel {
 
                 /* YEAR Label *///2018年
                 Dimension dy = yearLabel.getPreferredSize();
-                dy.width += 30; //dy.height += 1;
+                dy.width += 10; //dy.height += 1;
                 yearLabel.setPreferredSize(dy);
                 yearLabel.setForeground(DAY_FG);
-                //yearLabel.setHorizontalAlignment(JLabel.CENTER);
+                
                 
 
                 /* DAY PANEL *///一番下のパネル
@@ -165,7 +165,7 @@ public class SwingCalendarBase extends JPanel {
                         weekLabels[i].setPreferredSize(DAY_LABEL_SIZE);
                         weekLabels[i].setOpaque(true);
                         weekLabels[i].setBackground(WEEK_BG);
-                        //weekLabels[i].setBorder(WEEK_BORDER);
+                        
                         if( i == 0 ) {
                                 weekLabels[i].setForeground(Color.RED);
                         } else if ( i == 6 ) {
@@ -200,9 +200,6 @@ public class SwingCalendarBase extends JPanel {
 
                 //JPanelインスタンス化
                 JPanel monthPanel = new JPanel();
-                //SpringLayout layout1 = new SpringLayout();
-                //monthPanel.setLayout(layout1);
-                //layout1.putConstraint(SpringLayout.WEST, yearLabel, 0, SpringLayout.WEST, weekLabels[0]);
                 
                 //GridLayoutの追加
                 monthPanel.setLayout(new GridLayout());
@@ -213,7 +210,6 @@ public class SwingCalendarBase extends JPanel {
                 monthPanel.add(yearLabel);
                 
                 //yearLabelとmonthLabelの間に余白挿入
-                //monthPanel.add(Box.createGlue());
                 monthPanel.add(monthLabel);
                 
                 //monthLabelとb1の間に余白4つ挿入
@@ -223,8 +219,8 @@ public class SwingCalendarBase extends JPanel {
                 monthPanel.add(Box.createGlue());
                 monthPanel.add(b1);
                 //b1.setMargin(new Insets(10, 10, 10, 10));
-                //monthPanel.add(Box.createRigidArea(new Dimension(-10,0)));
                 monthPanel.add(b2);
+                //b2の後に余白挿入
                 monthPanel.add(Box.createGlue());
                 
                 //DayColorの設定//2018~>のパネル
@@ -248,10 +244,7 @@ public class SwingCalendarBase extends JPanel {
                 int year = cal.get(Calendar.YEAR);
                 String s = Integer.toString(year) + "年";
                 yearLabel.setText(s);
-                //yearLabel.setHorizontalAlignment(JLabel.CENTER);
-
-                
-                
+              
                 //updateMonthメソッドの呼び出し
                 updateMonth(cal, true);
         }
