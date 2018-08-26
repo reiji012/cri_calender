@@ -48,7 +48,9 @@ public class TaskXml{
 		Element root = (Element)document.getDocumentElement();
 		Element task = document.createElement("task");
 
-		task.setAttribute("id",time1);
+		//dateNum属性に日付を数字のみにしたものをもたせる
+		String dateNum = time1.substring(0, 4) + time1.substring(5, 7) + time1.substring(8, 10);
+		task.setAttribute("dateNum",dateNum);
 		root.appendChild(task);
 
 		Element time = document.createElement("time");

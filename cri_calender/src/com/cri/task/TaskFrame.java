@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class TaskFrame extends JFrame implements ActionListener{
+public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 
 	public JPanel contentPane;
 	private JPanel head;
@@ -101,38 +101,13 @@ public class TaskFrame extends JFrame implements ActionListener{
 		scrollPane.setViewportView(taskList);
 		setToDo();
 
-		//ダイアログの親をTaskFrameにする
-		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,false,0);
-
-		dlg.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e) {
-
-				try {
-					setToDo();
-				} catch (Exception e1) {
-					// TODO 自動生成された catch ブロック
-					e1.printStackTrace();
-				}
-			}
-		});
-
 		addButton.addActionListener(this);
 
-		taskList.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e){
-
-				if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
-					return;
-				}
-
-				if(e.getClickCount() == 2) {
-					dlg.setVisible(true);
-				}
-			}
-		});
+		taskList.addMouseListener(this);
 
 	}
 
+	//リストにタスクを表示する
 	private void setToDo() throws Exception{
 		taskListModel.clear();
 		//ファイルがあれば読み込む、なければ「イベントなし」と表示
@@ -148,9 +123,10 @@ public class TaskFrame extends JFrame implements ActionListener{
 		}
 	}
 
+	//＋ボタンからダイアログを呼び出す
 	public void actionPerformed(ActionEvent e) {
 
-		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,true,taskList.getSelectedIndex() + 1);
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,true,taskList.getSelectedIndex());
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 
@@ -163,6 +139,43 @@ public class TaskFrame extends JFrame implements ActionListener{
 			}
 		});
 		dlg.setVisible(true);
+	}
+
+	//リストをダブルクリックしてダイアログを呼び出す
+	public void mouseClicked(MouseEvent e) {
+
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,false,taskList.getSelectedIndex());
+		dlg.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {
+
+				try {
+					setToDo();
+				} catch (Exception e1) {
+					// TODO 自動生成された catch ブロック
+					e1.printStackTrace();
+				}
+			}
+		});
+		if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
+			return;
+		}
+
+		if(e.getClickCount() == 2) {
+			dlg.setVisible(true);
+		}
+	}
+
+	//MouseListenerで実装必要
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
 	}
 
 }

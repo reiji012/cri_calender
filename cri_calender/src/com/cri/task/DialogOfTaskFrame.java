@@ -42,6 +42,8 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 	DialogOfTaskFrame(JFrame owner,boolean whichDialog,int listNumber){
 		super(owner);
+
+		//不可視のテキストフィールドにlistNumberをもたせる
 		saveNumber = new JTextField();
 		saveNumber.setText(String.valueOf(listNumber));
 		contentPane = new JPanel();
