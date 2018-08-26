@@ -1,7 +1,6 @@
 package com.cri.task;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
@@ -14,6 +13,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -42,16 +42,14 @@ public class TaskXml{
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		FileInputStream fileInputStream = new FileInputStream("taskXML.xml");
-		Document document = builder.parse(fileInputStream);
-		fileInputStream.close();
+		Document document = builder.parse("taskXML.xml");
 		Element root = (Element)document.getDocumentElement();
 		Element task = document.createElement("task");
 
 		//dateNum属性に日付を数字のみにしたものをもたせる
 		String dateNum = time1.substring(0, 4) + time1.substring(5, 7) + time1.substring(8, 10);
 		task.setAttribute("dateNum",dateNum);
-		root.appendChild(task);
+		//root.appendChild(task);
 
 		Element time = document.createElement("time");
 		time.appendChild(document.createTextNode(time1));
@@ -65,6 +63,48 @@ public class TaskXml{
 		text.appendChild(document.createTextNode(text1));
 		task.appendChild(text);
 
+		//ここでどこに入れるか
+		NodeList list = root.getElementsByTagName("task");
+
+		int[] dateNumbers = new int[list.getLength()];
+
+		if(dateNumbers.length != 0) {
+			for(int i=0;i<list.getLength();i++) {
+
+				Node node = ((Element)list.item(i));
+				NamedNodeMap attrs = node.getAttributes();
+				String attributeString = attrs.getNamedItem("dateNum").toString();
+				int attr = Integer.parseInt(attributeString.substring(9,17));
+				dateNumbers[i] = attr;
+			}
+		}
+
+		int index = -1;
+		for(int i=0;i<dateNumbers.length;i++) {
+
+			if(Integer.parseInt(dateNum) == dateNumbers[i]) {
+
+				index = i;
+				break;
+			}else if(Integer.parseInt(dateNum) < dateNumbers[i]) {
+
+				index = i;
+				break;
+			}
+		}
+
+		System.out.println(index);
+
+		if(index != -1) {
+
+			Node node = ((Element)list.item(index));
+			root.insertBefore(task, node);
+		}else {
+
+			root.appendChild(task);
+		}
+
+		//ファイルへ出力
 		TransformerFactory transFactory = TransformerFactory.newInstance();
 		Transformer transformer = transFactory.newTransformer();
 
@@ -153,6 +193,5 @@ public class TaskXml{
 		StreamResult result = new StreamResult(outputStreamWriter);
 		transformer.transform(source,result);
 	}
-
 
 }

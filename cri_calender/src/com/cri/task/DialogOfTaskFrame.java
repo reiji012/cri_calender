@@ -103,7 +103,6 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 		monthsBox.setPreferredSize(new Dimension(40,20));
 		monthsBox.setSelectedItem(Integer.parseInt(hm.get("month").toString()));
-		System.out.println(hm.get("month"));
 
 		dateBox = new JComboBox();
 		for(int i=1;i<=31;i++){
@@ -170,6 +169,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		//deleteボタン押下時
 		deleteBtn.addActionListener(new DeleteActionListener());
+
+		//changeボタン押下時
+		changeBtn.addActionListener(new ChangeActionListener());
 
 		if(whichDialog) {
 			buttonArea.add(cancelBtn);
@@ -244,6 +246,25 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 			dispose();
 		}
 
+	}
+
+	class ChangeActionListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			TaskXml xml = new TaskXml();
+			int listNumber = Integer.parseInt(saveNumber.getText());
+			try {
+
+				xml.removeTask(listNumber);
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
+			setTaskContent();
+			dispose();
+
+		}
 	}
 
 }

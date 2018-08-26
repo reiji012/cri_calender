@@ -146,7 +146,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		hm = new HashMap();
 		Calendar calendar = Calendar.getInstance();
 
-		hm.put("listNumber", taskList.getSelectedIndex());
+		hm.put("listNumber", -1);
 		hm.put("year", calendar.get(Calendar.YEAR));
 		hm.put("month", calendar.get(Calendar.MONTH) + 1);
 		hm.put("date", calendar.get(Calendar.DATE));
@@ -183,6 +183,9 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 	//リストをダブルクリックしてダイアログを呼び出す
 	public void mouseClicked(MouseEvent e) {
 
+		if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
+			return;
+		}
 		try {
 			hm = listMap();
 		} catch (Exception e2) {
@@ -201,10 +204,6 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 				}
 			}
 		});
-		if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
-			return;
-		}
-
 		if(e.getClickCount() == 2) {
 			dlg.setVisible(true);
 		}
