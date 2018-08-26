@@ -98,6 +98,39 @@ public class TaskXml{
 
 	}
 
+	public String[] sendXml(int listNumber) throws Exception{
+
+		String[] task = new String[5];
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder.parse("TaskXML.xml");
+
+		Element root = (Element)document.getDocumentElement();
+
+		NodeList time = root.getElementsByTagName("time");
+		NodeList title = root.getElementsByTagName("title");
+		NodeList text = root.getElementsByTagName("text");
+
+		task[0] = time.item(listNumber).getTextContent().substring(0, 4);
+		//日付が２桁（１０の位が０)か
+		if(time.item(listNumber).getTextContent().substring(5,6).equals("0")) {
+			task[1] = time.item(listNumber).getTextContent().substring(6, 7);
+		}else {
+			task[1] = time.item(listNumber).getTextContent().substring(5, 7);
+		}
+
+		if(time.item(listNumber).getTextContent().substring(8,9).equals("0")) {
+			task[2] = time.item(listNumber).getTextContent().substring(9, 10);
+		}else {
+			task[2] = time.item(listNumber).getTextContent().substring(8, 10);
+		}
+		task[3] = title.item(listNumber).getTextContent().substring(0, title.item(listNumber).getTextContent().length() -1);
+		task[4] = text.item(listNumber).getTextContent();
+
+		return task;
+
+	}
+
 	public void removeTask(int listNumber) throws Exception{
 
 		if(listNumber < 0) {

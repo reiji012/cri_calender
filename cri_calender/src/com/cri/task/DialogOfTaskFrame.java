@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 
 public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
@@ -40,12 +42,12 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JComboBox yearsBox, monthsBox, dateBox;
 	private JButton cancelBtn, appendBtn, deleteBtn, changeBtn;
 
-	DialogOfTaskFrame(JFrame owner,boolean whichDialog,int listNumber){
+	DialogOfTaskFrame(JFrame owner,boolean whichDialog,HashMap hm){
 		super(owner);
 
 		//不可視のテキストフィールドにlistNumberをもたせる
 		saveNumber = new JTextField();
-		saveNumber.setText(String.valueOf(listNumber));
+		saveNumber.setText(hm.get("listNumber").toString());
 		contentPane = new JPanel();
 		getContentPane().setLayout(new GridBagLayout());
 		setContentPane(contentPane);
@@ -73,6 +75,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		gbc.gridy = 1;
 
 		textField = new JTextField();
+		textField.setText(hm.get("title").toString());
 		textField.setPreferredSize(new Dimension(140,15));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
@@ -92,19 +95,22 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 			yearsBox.addItem(i);
 		}
 		yearsBox.setPreferredSize(new Dimension(55,20));
+		yearsBox.setSelectedItem(Integer.parseInt(hm.get("year").toString()));
 
 		monthsBox = new JComboBox();
 		for(int i=1;i<=12;i++){
 			monthsBox.addItem(i);
 		}
 		monthsBox.setPreferredSize(new Dimension(40,20));
+		monthsBox.setSelectedItem(Integer.parseInt(hm.get("month").toString()));
+		System.out.println(hm.get("month"));
 
 		dateBox = new JComboBox();
 		for(int i=1;i<=31;i++){
 			dateBox.addItem(i);
 		}
 		dateBox.setPreferredSize(new Dimension(40,20));
-
+		dateBox.setSelectedItem(Integer.parseInt(hm.get("date").toString()));
 
 		//コンボボックスに付属するラベル
 		year = new JLabel("年");
@@ -129,6 +135,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		//イベントの内容
 		textArea = new JTextArea();
+		textArea.setText(hm.get("text").toString());
 		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		scrollPane.setViewportView(textArea);
 

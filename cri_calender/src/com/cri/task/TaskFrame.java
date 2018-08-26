@@ -12,7 +12,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -39,6 +41,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 	private TaskXml xml;
 	private String[] str;
 	private Date today;
+	private HashMap hm;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -123,10 +126,46 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 
+	public HashMap listMap() throws Exception{
+
+		xml = new TaskXml();
+		String[] sendStr = xml.sendXml(taskList.getSelectedIndex());
+		hm = new HashMap();
+		hm.put("listNumber", taskList.getSelectedIndex());
+		hm.put("year", sendStr[0]);
+		hm.put("month", sendStr[1]);
+		hm.put("date", sendStr[2]);
+		hm.put("title", sendStr[3]);
+		hm.put("text", sendStr[4]);
+
+		return hm;
+	}
+
+	public HashMap addBtnMap() {
+
+		hm = new HashMap();
+		Calendar calendar = Calendar.getInstance();
+
+		hm.put("listNumber", taskList.getSelectedIndex());
+		hm.put("year", calendar.get(Calendar.YEAR));
+		hm.put("month", calendar.get(Calendar.MONTH) + 1);
+		hm.put("date", calendar.get(Calendar.DATE));
+		hm.put("title", "");
+		hm.put("text", "");
+
+		return hm;
+	}
+
 	//＋ボタンからダイアログを呼び出す
 	public void actionPerformed(ActionEvent e) {
 
-		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,true,taskList.getSelectedIndex());
+		try {
+			hm = addBtnMap();
+		} catch (Exception e2) {
+			// TODO 自動生成された catch ブロック
+			e2.printStackTrace();
+		}
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,true,hm);
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 
@@ -144,7 +183,13 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 	//リストをダブルクリックしてダイアログを呼び出す
 	public void mouseClicked(MouseEvent e) {
 
-		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,false,taskList.getSelectedIndex());
+		try {
+			hm = listMap();
+		} catch (Exception e2) {
+			// TODO 自動生成された catch ブロック
+			e2.printStackTrace();
+		}
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,false,hm);
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 
@@ -177,6 +222,5 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 
 	public void mousePressed(MouseEvent e) {
 	}
-
 }
 
