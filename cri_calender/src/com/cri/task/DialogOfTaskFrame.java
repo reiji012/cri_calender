@@ -36,12 +36,14 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JLabel year, month, day;
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
-	private JTextField textField;
+	private JTextField textField, saveNumber;
 	private JComboBox yearsBox, monthsBox, dateBox;
-	private JButton cancel, change;
+	private JButton cancelBtn, appendBtn, deleteBtn, changeBtn;
 
-	DialogOfTaskFrame(JFrame owner){
+	DialogOfTaskFrame(JFrame owner,boolean whichDialog,int listNumber){
 		super(owner);
+		saveNumber = new JTextField();
+		saveNumber.setText(String.valueOf(listNumber));
 		contentPane = new JPanel();
 		getContentPane().setLayout(new GridBagLayout());
 		setContentPane(contentPane);
@@ -56,8 +58,13 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		gbc.gridheight = 1;
 		gbc.insets = new Insets(0,0,0,0);
 
+		//呼び出し元がリストなら編集、＋ボタンなら登録
+		if(whichDialog) {
+			heading = new JLabel("イベントの登録");
+		}else {
+			heading = new JLabel("イベントの編集");
+		}
 
-		heading = new JLabel("イベントの登録");
 		contentPane.add(heading,gbc);
 
 		//イベントのタイトル
@@ -70,14 +77,12 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		contentPane.add(textField,gbc);
 
-
 		//コンボボックス等を配置するパネル
 		gbc.gridy = 2;
 
 		boxArea = new JPanel();
 		boxArea.setLayout(new FlowLayout(0,0,0));
 		contentPane.add(boxArea,gbc);
-
 
 		//コンボボックスの設定
 		yearsBox = new JComboBox();
@@ -134,29 +139,43 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		buttonArea.setLayout(new FlowLayout());
 
 		//ボタンの設定
-		cancel = new JButton("キャンセル");
-		cancel.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
-		change = new JButton("変更");
-		change.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
-		//changeボタン押下時
-		change.addActionListener(this);
+		cancelBtn = new JButton("キャンセル");
+		cancelBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		appendBtn = new JButton("追加");
+		appendBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		deleteBtn = new JButton("削除");
+		deleteBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		changeBtn = new JButton("変更");
+		changeBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 
 		//cancelボタン押下時
-		cancel.addActionListener(new ActionListener() {
+		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				setVisible(false);
 			}
 		});
-		buttonArea.add(cancel);
-		buttonArea.add(change);
+
+		//appendボタン押下時
+		appendBtn.addActionListener(this);
+
+		//deleteボタン押下時
+		deleteBtn.addActionListener(new DeleteActionListener());
+
+		if(whichDialog) {
+			buttonArea.add(cancelBtn);
+			buttonArea.add(appendBtn);
+		}else {
+			buttonArea.add(cancelBtn);
+			buttonArea.add(deleteBtn);
+			buttonArea.add(changeBtn);
+		}
 
 	}
 
 	public void actionPerformed(ActionEvent e){
 
 		setTaskContent();
-		textArea.setText("");
-		textField.setText("");
 		dispose();
 	}
 
@@ -173,9 +192,15 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		month = monthsBox.getSelectedItem().toString();
 		date = dateBox.getSelectedItem().toString();
 
+		if(month.length() == 1) {
+			month = "0" + month;
+		}
+		if(date.length() == 1) {
+			date = "0" + date;
+		}
+
 		taskDate = year + "年" + month + "月" + date + "日：";
 		taskContent = taskDate  + taskTitle + taskText;
-
 
 		TaskXml xml = new TaskXml();
 		//ファイルを指定
@@ -193,6 +218,23 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 	}
 
+	class DeleteActionListener implements ActionListener{
 
+		public void actionPerformed(ActionEvent e){
+
+			TaskXml xml = new TaskXml();
+			int listNumber = Integer.parseInt(saveNumber.getText());
+
+			try {
+
+				xml.removeTask(listNumber);
+			} catch (Exception e1) {
+				// TODO 自動生成された catch ブロック
+				e1.printStackTrace();
+			}
+			dispose();
+		}
+
+	}
 
 }

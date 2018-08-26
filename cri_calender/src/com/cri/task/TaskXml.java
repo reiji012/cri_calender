@@ -46,8 +46,9 @@ public class TaskXml{
 		Document document = builder.parse(fileInputStream);
 		fileInputStream.close();
 		Element root = (Element)document.getDocumentElement();
-		//Node target = root.getElementsByTagName("task").item(0);
 		Element task = document.createElement("task");
+
+		task.setAttribute("id",time1);
 		root.appendChild(task);
 
 		Element time = document.createElement("time");
@@ -86,13 +87,36 @@ public class TaskXml{
 
 			Element root = (Element)document.getDocumentElement();
 			Node node = root.getElementsByTagName("task").item(i);
-			String sss = node.getTextContent();
-			str[i] = sss;
+			String task = node.getTextContent();
+			str[i] = task;
 
 		}
 
 		return str;
 
+	}
+
+	public void removeTask(int listNumber) throws Exception{
+
+		if(listNumber < 0) {
+			return;
+		}
+		DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = dbfactory.newDocumentBuilder();
+		Document document = builder.parse("taskXML.xml");
+		Element root = (Element)document.getDocumentElement();
+
+		NodeList list = root.getElementsByTagName("task");
+		//ここで削除するタスクを指定
+		root.removeChild(list.item(listNumber));
+
+		TransformerFactory transFactory = TransformerFactory.newInstance();
+		Transformer transformer = transFactory.newTransformer();
+
+		DOMSource source = new DOMSource(document);
+		OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream("taskXML.xml"));
+		StreamResult result = new StreamResult(outputStreamWriter);
+		transformer.transform(source,result);
 	}
 
 

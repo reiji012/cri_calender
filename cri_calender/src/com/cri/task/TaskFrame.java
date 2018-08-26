@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -20,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class TaskFrame extends JFrame{
+public class TaskFrame extends JFrame implements ActionListener{
 
 	public JPanel contentPane;
 	private JPanel head;
@@ -29,11 +33,12 @@ public class TaskFrame extends JFrame{
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 
-	private DefaultListModel toDoListModel;
-	private JList toDoList;
-	private File file;
+	private DefaultListModel taskListModel;
+	private JList taskList;
+	private File file = new File("taskXML.xml");
 	private TaskXml xml;
 	private String[] str;
+	private Date today;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -73,7 +78,9 @@ public class TaskFrame extends JFrame{
 		contentPane.add(head, BorderLayout.NORTH);
 
 		//日付を追加する
-		date = new JLabel("日付");
+		SimpleDateFormat sdf = new SimpleDateFormat("M月dd日 E曜日");
+		today = new Date();
+		date = new JLabel(sdf.format(today));
 		head.add(date, BorderLayout.WEST);
 		head.setBackground(Color.GRAY);
 
@@ -88,52 +95,75 @@ public class TaskFrame extends JFrame{
 		setBackground(Color.GRAY);
 
 		//リストを追加
-		toDoListModel = new DefaultListModel();
-		toDoList = new JList(toDoListModel);
-		toDoList.setBackground(Color.GRAY);
-		scrollPane.setViewportView(toDoList);
+		taskListModel = new DefaultListModel();
+		taskList = new JList(taskListModel);
+		taskList.setBackground(Color.GRAY);
+		scrollPane.setViewportView(taskList);
+		setToDo();
 
+		//ダイアログの親をTaskFrameにする
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,false,0);
 
-		//ファイル名の指定
-		file = new File("taskXML.xml");
+		dlg.addWindowListener(new WindowAdapter() {
+			public void windowClosed(WindowEvent e) {
+
+				try {
+					setToDo();
+				} catch (Exception e1) {
+					// TODO 自動生成された catch ブロック
+					e1.printStackTrace();
+				}
+			}
+		});
+
+		addButton.addActionListener(this);
+
+		taskList.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+
+				if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
+					return;
+				}
+
+				if(e.getClickCount() == 2) {
+					dlg.setVisible(true);
+				}
+			}
+		});
+
+	}
+
+	private void setToDo() throws Exception{
+		taskListModel.clear();
+		//ファイルがあれば読み込む、なければ「イベントなし」と表示
 		xml = new TaskXml();
-		//ファイルがあれば読み込む、なければ、イベントなし
 		if(file.exists()) {
 			str = xml.viewXml();
 			for(int i=0;i<str.length;i++) {
-				toDoListModel.addElement(str[i]);
+				taskListModel.addElement(str[i]);
 			}
-		}else {
-			toDoListModel.addElement("イベントなし");
 		}
+		if(taskListModel.size() == 0) {
+			taskListModel.addElement("イベントなし");
+		}
+	}
 
-		//ダイアログの親をTaskFrameにする
-		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this);
+	public void actionPerformed(ActionEvent e) {
+
+		DialogOfTaskFrame dlg = new DialogOfTaskFrame(this,true,taskList.getSelectedIndex() + 1);
 		dlg.addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
-				setTaskText(dlg.taskContent);
+
+				try {
+					setToDo();
+				} catch (Exception e1) {
+					// TODO 自動生成された catch ブロック
+					e1.printStackTrace();
+				}
 			}
 		});
-
-		//+ボタンをクリックした時
-		addButton.addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e){
-
-				dlg.setVisible(true);
-
-			}
-		});
-
+		dlg.setVisible(true);
 	}
 
-	private void setTaskText(String taskContent) {
-
-		//イベントがあれば追加、なければ書き換え
-		if(toDoListModel.firstElement().equals("イベントなし")) {
-			toDoListModel.clear();
-		}
-		toDoListModel.addElement(taskContent + "\r\n");
-
-	}
 }
 
