@@ -42,12 +42,15 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private JComboBox yearsBox, monthsBox, dateBox;
 	private JButton cancelBtn, appendBtn, deleteBtn, changeBtn;
 
+	//ダイアログの引数は、オーナー、追加するダイアログか変更するダイアログか、リストの番号とダイアログに表示する値をまとめたもの
 	DialogOfTaskFrame(JFrame owner,boolean whichDialog,HashMap hm){
+
 		super(owner);
 
 		//不可視のテキストフィールドにlistNumberをもたせる
 		saveNumber = new JTextField();
 		saveNumber.setText(hm.get("listNumber").toString());
+
 		contentPane = new JPanel();
 		getContentPane().setLayout(new GridBagLayout());
 		setContentPane(contentPane);
@@ -79,7 +82,6 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textField.setPreferredSize(new Dimension(140,15));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
-
 		contentPane.add(textField,gbc);
 
 		//コンボボックス等を配置するパネル
@@ -173,6 +175,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		//changeボタン押下時
 		changeBtn.addActionListener(new ChangeActionListener());
 
+		//追加するダイアログなら、追加とキャンセルボタン、変更するダイアログならキャンセル、削除、変更ボタン
 		if(whichDialog) {
 			buttonArea.add(cancelBtn);
 			buttonArea.add(appendBtn);
@@ -229,6 +232,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 	}
 
+	//deleteボタン用のアクション
 	class DeleteActionListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent e){
@@ -248,6 +252,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 	}
 
+	//changeボタン用のアクション　削除して追加している
 	class ChangeActionListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {

@@ -113,7 +113,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 	//リストにタスクを表示する
 	private void setToDo() throws Exception{
 		taskListModel.clear();
-		//ファイルがあれば読み込む、なければ「イベントなし」と表示
+		//ファイルがあれば読み込む、なければ「イベントなし」と表示（rootのみでもファイルは存在できる)
 		xml = new TaskXml();
 		if(file.exists()) {
 			str = xml.viewXml();
@@ -126,6 +126,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 
+	//リストからダイアログを呼び出す際に送る値の設定
 	public HashMap listMap() throws Exception{
 
 		xml = new TaskXml();
@@ -141,6 +142,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		return hm;
 	}
 
+	//＋ボタンからダイアログを呼び出す際に送る値の設定
 	public HashMap addBtnMap() {
 
 		hm = new HashMap();
@@ -183,6 +185,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 	//リストをダブルクリックしてダイアログを呼び出す
 	public void mouseClicked(MouseEvent e) {
 
+		//イベントがないまたは、選択されたタスクが一つではないとき何もしない
 		if(taskListModel.getElementAt(0).equals("イベントなし") || taskList.getSelectedIndices().length != 1) {
 			return;
 		}

@@ -21,6 +21,7 @@ public class TaskXml{
 
 	public void createXml() throws Exception{
 
+		//rootノードのみ作成する
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -63,17 +64,20 @@ public class TaskXml{
 		text.appendChild(document.createTextNode(text1));
 		task.appendChild(text);
 
-		//ここでどこに入れるか
+		//既存のタスクの日付と追加されるタスクの日付を比較する
 		NodeList list = root.getElementsByTagName("task");
 
 		int[] dateNumbers = new int[list.getLength()];
+
 
 		if(dateNumbers.length != 0) {
 			for(int i=0;i<list.getLength();i++) {
 
 				Node node = ((Element)list.item(i));
 				NamedNodeMap attrs = node.getAttributes();
+				//属性の表示を文字列としてもつ
 				String attributeString = attrs.getNamedItem("dateNum").toString();
+				//属性の表示の文字列から日付を表す数字部分を切り取り
 				int attr = Integer.parseInt(attributeString.substring(9,17));
 				dateNumbers[i] = attr;
 			}
@@ -92,8 +96,6 @@ public class TaskXml{
 				break;
 			}
 		}
-
-		System.out.println(index);
 
 		if(index != -1) {
 
@@ -121,7 +123,7 @@ public class TaskXml{
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document document = builder.parse("TaskXML.xml");
 
-		//dateノードの数を取得するため
+		//dateノードの数を取得するためのlist
 		NodeList list = document.getElementsByTagName("task");
 		String[] str = new String[list.getLength()];
 
@@ -152,7 +154,7 @@ public class TaskXml{
 		NodeList text = root.getElementsByTagName("text");
 
 		task[0] = time.item(listNumber).getTextContent().substring(0, 4);
-		//日付が２桁（１０の位が０)か
+		//日付が２桁（１０の位が０)か　"08"→"8" 、 "17"→"17"
 		if(time.item(listNumber).getTextContent().substring(5,6).equals("0")) {
 			task[1] = time.item(listNumber).getTextContent().substring(6, 7);
 		}else {
@@ -173,6 +175,7 @@ public class TaskXml{
 
 	public void removeTask(int listNumber) throws Exception{
 
+		//リスト番号が0未満なら何もしない
 		if(listNumber < 0) {
 			return;
 		}
@@ -182,7 +185,8 @@ public class TaskXml{
 		Element root = (Element)document.getDocumentElement();
 
 		NodeList list = root.getElementsByTagName("task");
-		//ここで削除するタスクを指定
+
+		//リスト番号のタスクを削除
 		root.removeChild(list.item(listNumber));
 
 		TransformerFactory transFactory = TransformerFactory.newInstance();
