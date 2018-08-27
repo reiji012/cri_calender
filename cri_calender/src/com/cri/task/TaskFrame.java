@@ -84,6 +84,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		SimpleDateFormat sdf = new SimpleDateFormat("M月dd日 E曜日");
 		today = new Date();
 		date = new JLabel(sdf.format(today));
+		date.setForeground(Color.WHITE);
 		head.add(date, BorderLayout.WEST);
 		head.setBackground(Color.GRAY);
 
@@ -91,6 +92,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		addButton = new JButton("+");
 		head.add(addButton, BorderLayout.EAST);
 		addButton.setBackground(Color.GRAY);
+		addButton.setForeground(Color.WHITE);
 
 		//スクロールパネルを追加する
 		scrollPane = new JScrollPane();
@@ -101,6 +103,7 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		taskListModel = new DefaultListModel();
 		taskList = new JList(taskListModel);
 		taskList.setBackground(Color.GRAY);
+		taskList.setForeground(Color.WHITE);
 		scrollPane.setViewportView(taskList);
 		setToDo();
 

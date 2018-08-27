@@ -1,6 +1,7 @@
 package com.cri.task;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -54,6 +55,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		contentPane = new JPanel();
 		getContentPane().setLayout(new GridBagLayout());
 		setContentPane(contentPane);
+		contentPane.setBackground(Color.GRAY);
 
 		setSize(228,184);
 
@@ -72,6 +74,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 			heading = new JLabel("イベントの編集");
 		}
 
+		heading.setForeground(Color.WHITE);
 		contentPane.add(heading,gbc);
 
 		//イベントのタイトル
@@ -82,6 +85,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textField.setPreferredSize(new Dimension(140,15));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
+		textField.setBackground(Color.LIGHT_GRAY);
 		contentPane.add(textField,gbc);
 
 		//コンボボックス等を配置するパネル
@@ -89,6 +93,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		boxArea = new JPanel();
 		boxArea.setLayout(new FlowLayout(0,0,0));
+		boxArea.setBackground(Color.GRAY);
 		contentPane.add(boxArea,gbc);
 
 		//コンボボックスの設定
@@ -98,6 +103,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 		yearsBox.setPreferredSize(new Dimension(55,20));
 		yearsBox.setSelectedItem(Integer.parseInt(hm.get("year").toString()));
+		yearsBox.setBackground(Color.LIGHT_GRAY);
 
 		monthsBox = new JComboBox();
 		for(int i=1;i<=12;i++){
@@ -105,6 +111,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 		monthsBox.setPreferredSize(new Dimension(40,20));
 		monthsBox.setSelectedItem(Integer.parseInt(hm.get("month").toString()));
+		monthsBox.setBackground(Color.LIGHT_GRAY);
 
 		dateBox = new JComboBox();
 		for(int i=1;i<=31;i++){
@@ -112,11 +119,15 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 		dateBox.setPreferredSize(new Dimension(40,20));
 		dateBox.setSelectedItem(Integer.parseInt(hm.get("date").toString()));
+		dateBox.setBackground(Color.LIGHT_GRAY);
 
 		//コンボボックスに付属するラベル
 		year = new JLabel("年");
+		year.setForeground(Color.WHITE);
 		month = new JLabel("月");
+		month.setForeground(Color.WHITE);
 		day = new JLabel("日");
+		day.setForeground(Color.WHITE);
 
 		//boxAreaへの配置
 		boxArea.add(yearsBox);
@@ -138,6 +149,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textArea = new JTextArea();
 		textArea.setText(hm.get("text").toString());
 		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		textArea.setBackground(Color.LIGHT_GRAY);
 		scrollPane.setViewportView(textArea);
 
 		//ボタンを配置する場所
@@ -147,16 +159,21 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		buttonArea = new JPanel();
 		contentPane.add(buttonArea,gbc);
 		buttonArea.setLayout(new FlowLayout());
+		buttonArea.setBackground(Color.GRAY);
 
 		//ボタンの設定
 		cancelBtn = new JButton("キャンセル");
 		cancelBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
-		appendBtn = new JButton("追加");
+		cancelBtn.setBackground(Color.LIGHT_GRAY);
+		appendBtn = new JButton("登録");
 		appendBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		appendBtn.setBackground(Color.LIGHT_GRAY);
 		deleteBtn = new JButton("削除");
 		deleteBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		deleteBtn.setBackground(Color.LIGHT_GRAY);
 		changeBtn = new JButton("変更");
 		changeBtn.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		changeBtn.setBackground(Color.LIGHT_GRAY);
 
 		//cancelボタン押下時
 		cancelBtn.addActionListener(new ActionListener() {

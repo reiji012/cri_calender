@@ -88,7 +88,7 @@ public class TaskXml{
 
 			if(Integer.parseInt(dateNum) == dateNumbers[i]) {
 
-				index = i;
+				index = i + 1;
 				break;
 			}else if(Integer.parseInt(dateNum) < dateNumbers[i]) {
 
