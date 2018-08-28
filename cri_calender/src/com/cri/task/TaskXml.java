@@ -198,4 +198,33 @@ public class TaskXml{
 		transformer.transform(source,result);
 	}
 
+	public String[] dateTask (int dateNum) throws Exception{
+
+		DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = dbfactory.newDocumentBuilder();
+		Document document = builder.parse("taskXML.xml");
+		Element root = (Element)document.getDocumentElement();
+
+		//dateノードの数を取得するためのlist
+		NodeList list = document.getElementsByTagName("task");
+		String[] str = new String[list.getLength()];
+
+		for(int i=0;i<list.getLength();i++) {
+
+			Node node = root.getElementsByTagName("task").item(i);
+			NamedNodeMap attrs = node.getAttributes();
+			//属性の表示を文字列としてもつ
+			String attributeString = attrs.getNamedItem("dateNum").toString();
+			//属性の表示の文字列から日付を表す数字部分を切り取り
+			int attr = Integer.parseInt(attributeString.substring(9,17));
+			if(attr == dateNum) {
+				String task = node.getTextContent();
+				str[i] = task;
+			}
+		}
+
+		return str;
+
+	}
+
 }

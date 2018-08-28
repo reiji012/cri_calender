@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.util.HashMap;
 
@@ -30,6 +32,8 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private String taskText;
 	private String taskDate;
 	public  String taskContent;
+	private String placeholderField = "イベントのタイトルを入力して下さい";
+	private String placeholderArea = "イベントの内容を入力して下さい";
 	private File file;
 
 	private JPanel contentPane;
@@ -86,6 +90,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
 		textField.setBackground(Color.LIGHT_GRAY);
+		textField.addFocusListener(new TextFieldFocusListener());
 		contentPane.add(textField,gbc);
 
 		//コンボボックス等を配置するパネル
@@ -148,8 +153,13 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		//イベントの内容
 		textArea = new JTextArea();
 		textArea.setText(hm.get("text").toString());
+		if(textArea.getText().equals("")) {
+			textArea.setText(placeholderArea);
+			textArea.setForeground(Color.GRAY);
+		}
 		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textArea.setBackground(Color.LIGHT_GRAY);
+		textArea.addFocusListener(new TextAreaFocusListener());
 		scrollPane.setViewportView(textArea);
 
 		//ボタンを配置する場所
@@ -212,6 +222,11 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 	private void setTaskContent() {
 
+		//透かし文字を保存しない
+		if(textArea.getText().equals(placeholderArea)) {
+			textArea.setText("");
+		}
+
 		String year;
 		String month;
 		String date;
@@ -246,6 +261,46 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+		}
+	}
+
+	class TextAreaFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textArea.getText().equals("")) {
+				textArea.setText(placeholderArea);
+				textArea.setForeground(Color.GRAY);
+			}
+
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textArea.getText().equals(placeholderArea)) {
+				textArea.setText("");
+			}
+			textArea.setForeground(Color.BLACK);
+
+		}
+	}
+
+	class TextFieldFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textField.getText().equals("")) {
+				textField.setText(placeholderField);
+				textField.setForeground(Color.GRAY);
+			}
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textField.getText().equals(placeholderField)) {
+				textField.setText("");
+			}
+			textField.setForeground(Color.BLACK);
 		}
 	}
 
