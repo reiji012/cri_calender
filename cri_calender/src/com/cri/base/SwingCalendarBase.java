@@ -281,7 +281,7 @@ public class SwingCalendarBase extends JPanel {
                 System.out.println("最大日" + maxDate); //確認
                 
                 
-                //cal.set(Calendar.DATE, 1); //次月１日を取得
+                cal.set(Calendar.DATE, 1); //次月１日を取得
                
                 //月の初めを取得 
                 int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
