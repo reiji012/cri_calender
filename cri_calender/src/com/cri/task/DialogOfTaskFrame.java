@@ -62,6 +62,8 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		contentPane.setBackground(Color.GRAY);
 
 		setSize(228,184);
+		//サイズ固定
+		setResizable(false);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 
