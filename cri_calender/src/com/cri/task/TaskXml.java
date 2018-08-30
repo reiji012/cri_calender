@@ -24,7 +24,6 @@ public class TaskXml{
 		//rootノードのみ作成する
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-
 		Document document = builder.newDocument();
 		Element root = document.createElement("root");
 		document.appendChild(root);
@@ -88,8 +87,11 @@ public class TaskXml{
 
 			if(Integer.parseInt(dateNum) == dateNumbers[i]) {
 
-				index = i + 1;
-				break;
+				while(Integer.parseInt(dateNum) != dateNumbers[i]) {
+					i++;
+					index = i;
+					break;
+				}
 			}else if(Integer.parseInt(dateNum) < dateNumbers[i]) {
 
 				index = i;

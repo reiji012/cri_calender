@@ -75,7 +75,6 @@ public class TaskFrame extends JFrame implements ActionListener, MouseListener{
 		contentPane.setBackground(Color.GRAY);
 		setContentPane(contentPane);
 
-
 		head = new JPanel();
 		head.setLayout(new BorderLayout(0,0));
 		contentPane.add(head, BorderLayout.NORTH);

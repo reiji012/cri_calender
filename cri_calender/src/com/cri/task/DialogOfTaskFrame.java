@@ -228,6 +228,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		if(textArea.getText().equals(placeholderArea)) {
 			textArea.setText("");
 		}
+		if(textField.getText().equals(placeholderField)) {
+			textField.setText("");
+		}
 
 		String year;
 		String month;
