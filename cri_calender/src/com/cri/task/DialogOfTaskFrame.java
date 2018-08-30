@@ -61,7 +61,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setBackground(Color.GRAY);
 
-		setSize(228,184);
+		setBounds(500, 500, 250, 240);
 		//サイズ固定
 		setResizable(false);
 
@@ -88,7 +88,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		textField = new JTextField();
 		textField.setText(hm.get("title").toString());
-		textField.setPreferredSize(new Dimension(140,15));
+		textField.setPreferredSize(new Dimension(180,30));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
 		textField.setBackground(Color.LIGHT_GRAY);
@@ -108,7 +108,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		for(int i=2000;i<=2025;i++){
 			yearsBox.addItem(i);
 		}
-		yearsBox.setPreferredSize(new Dimension(55,20));
+		yearsBox.setPreferredSize(new Dimension(80,20));
 		yearsBox.setSelectedItem(Integer.parseInt(hm.get("year").toString()));
 		yearsBox.setBackground(Color.LIGHT_GRAY);
 
@@ -124,7 +124,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		for(int i=1;i<=31;i++){
 			dateBox.addItem(i);
 		}
-		dateBox.setPreferredSize(new Dimension(40,20));
+		dateBox.setPreferredSize(new Dimension(50,20));
 		dateBox.setSelectedItem(Integer.parseInt(hm.get("date").toString()));
 		dateBox.setBackground(Color.LIGHT_GRAY);
 
@@ -149,7 +149,7 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		gbc.gridheight = 2;
 
 		scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(140,30));
+		scrollPane.setPreferredSize(new Dimension(170,50));
 		contentPane.add(scrollPane,BorderLayout.CENTER);
 
 		//イベントの内容
