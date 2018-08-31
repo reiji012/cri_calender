@@ -67,7 +67,6 @@ public class TaskFrame extends JFrame{
 		contentPane.setBackground(Color.GRAY);
 		setContentPane(contentPane);
 
-
 		head = new JPanel();
 		head.setLayout(new BorderLayout(0,0));
 		contentPane.add(head, BorderLayout.NORTH);
@@ -134,6 +133,22 @@ public class TaskFrame extends JFrame{
 		}
 		toDoListModel.addElement(taskContent + "\r\n");
 
+	}
+
+	//その日のタスク
+	private void dateToDo(int date) throws Exception{
+		taskListModel.clear();
+		//ファイルがあれば読み込む、なければ「イベントなし」と表示（rootのみでもファイルは存在できる)
+		xml = new TaskXml();
+		if(file.exists()) {
+			str = xml.dateTask(date);
+			for(int i=0;i<str.length;i++) {
+				taskListModel.addElement(str[i]);
+			}
+		}
+		if(taskListModel.size() == 0) {
+			taskListModel.addElement("イベントなし");
+		}
 	}
 }
 

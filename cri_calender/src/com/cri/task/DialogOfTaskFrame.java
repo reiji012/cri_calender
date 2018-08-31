@@ -9,6 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -27,6 +29,8 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	private String taskText;
 	private String taskDate;
 	public  String taskContent;
+	private String placeholderField = "イベントのタイトルを入力して下さい";
+	private String placeholderArea = "イベントの内容を入力して下さい";
 	private File file;
 
 	private JPanel contentPane;
@@ -46,7 +50,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		getContentPane().setLayout(new GridBagLayout());
 		setContentPane(contentPane);
 
-		setSize(228,184);
+		setBounds(500, 500, 250, 240);
+		//サイズ固定
+		setResizable(false);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 
@@ -64,10 +70,19 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		gbc.gridy = 1;
 
 		textField = new JTextField();
+<<<<<<< HEAD
 		textField.setPreferredSize(new Dimension(140,15));
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
 
+=======
+		textField.setText(hm.get("title").toString());
+		textField.setPreferredSize(new Dimension(180,30));
+		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		textField.setMargin(new Insets(0,0,0,0));
+		textField.setBackground(Color.LIGHT_GRAY);
+		textField.addFocusListener(new TextFieldFocusListener());
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		contentPane.add(textField,gbc);
 
 
@@ -84,7 +99,13 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		for(int i=2000;i<=2025;i++){
 			yearsBox.addItem(i);
 		}
+<<<<<<< HEAD
 		yearsBox.setPreferredSize(new Dimension(55,20));
+=======
+		yearsBox.setPreferredSize(new Dimension(80,20));
+		yearsBox.setSelectedItem(Integer.parseInt(hm.get("year").toString()));
+		yearsBox.setBackground(Color.LIGHT_GRAY);
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 
 		monthsBox = new JComboBox();
 		for(int i=1;i<=12;i++){
@@ -96,8 +117,14 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		for(int i=1;i<=31;i++){
 			dateBox.addItem(i);
 		}
+<<<<<<< HEAD
 		dateBox.setPreferredSize(new Dimension(40,20));
 
+=======
+		dateBox.setPreferredSize(new Dimension(50,20));
+		dateBox.setSelectedItem(Integer.parseInt(hm.get("date").toString()));
+		dateBox.setBackground(Color.LIGHT_GRAY);
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 
 		//コンボボックスに付属するラベル
 		year = new JLabel("年");
@@ -117,12 +144,23 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		gbc.gridheight = 2;
 
 		scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(140,30));
+		scrollPane.setPreferredSize(new Dimension(170,50));
 		contentPane.add(scrollPane,BorderLayout.CENTER);
 
 		//イベントの内容
 		textArea = new JTextArea();
+<<<<<<< HEAD
 		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+=======
+		textArea.setText(hm.get("text").toString());
+		if(textArea.getText().equals("")) {
+			textArea.setText(placeholderArea);
+			textArea.setForeground(Color.GRAY);
+		}
+		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
+		textArea.setBackground(Color.LIGHT_GRAY);
+		textArea.addFocusListener(new TextAreaFocusListener());
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		scrollPane.setViewportView(textArea);
 
 		//ボタンを配置する場所
@@ -162,6 +200,14 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 	private void setTaskContent() {
 
+		//透かし文字を保存しない
+		if(textArea.getText().equals(placeholderArea)) {
+			textArea.setText("");
+		}
+		if(textField.getText().equals(placeholderField)) {
+			textField.setText("");
+		}
+
 		String year;
 		String month;
 		String date;
@@ -193,6 +239,58 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	class TextAreaFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textArea.getText().equals("")) {
+				textArea.setText(placeholderArea);
+				textArea.setForeground(Color.GRAY);
+			}
+
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textArea.getText().equals(placeholderArea)) {
+				textArea.setText("");
+			}
+			textArea.setForeground(Color.BLACK);
+
+		}
+	}
+
+	class TextFieldFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textField.getText().equals("")) {
+				textField.setText(placeholderField);
+				textField.setForeground(Color.GRAY);
+			}
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textField.getText().equals(placeholderField)) {
+				textField.setText("");
+			}
+			textField.setForeground(Color.BLACK);
+		}
+	}
+
+	//deleteボタン用のアクション
+	class DeleteActionListener implements ActionListener{
+
+		public void actionPerformed(ActionEvent e){
+
+			TaskXml xml = new TaskXml();
+			int listNumber = Integer.parseInt(saveNumber.getText());
+
+			try {
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 
 
 }

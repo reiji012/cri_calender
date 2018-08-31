@@ -23,7 +23,6 @@ public class TaskXml{
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
-
 		Document document = builder.newDocument();
 		Element root = document.createElement("root");
 		document.appendChild(root);
@@ -62,6 +61,55 @@ public class TaskXml{
 		text.appendChild(document.createTextNode(text1));
 		task.appendChild(text);
 
+<<<<<<< HEAD
+=======
+		//既存のタスクの日付と追加されるタスクの日付を比較する
+		NodeList list = root.getElementsByTagName("task");
+
+		int[] dateNumbers = new int[list.getLength()];
+
+
+		if(dateNumbers.length != 0) {
+			for(int i=0;i<list.getLength();i++) {
+
+				Node node = ((Element)list.item(i));
+				NamedNodeMap attrs = node.getAttributes();
+				//属性の表示を文字列としてもつ
+				String attributeString = attrs.getNamedItem("dateNum").toString();
+				//属性の表示の文字列から日付を表す数字部分を切り取り
+				int attr = Integer.parseInt(attributeString.substring(9,17));
+				dateNumbers[i] = attr;
+			}
+		}
+
+		int index = -1;
+		for(int i=0;i<dateNumbers.length;i++) {
+
+			if(Integer.parseInt(dateNum) == dateNumbers[i]) {
+
+				while(Integer.parseInt(dateNum) != dateNumbers[i]) {
+					i++;
+					index = i;
+					break;
+				}
+			}else if(Integer.parseInt(dateNum) < dateNumbers[i]) {
+
+				index = i;
+				break;
+			}
+		}
+
+		if(index != -1) {
+
+			Node node = ((Element)list.item(index));
+			root.insertBefore(task, node);
+		}else {
+
+			root.appendChild(task);
+		}
+
+		//ファイルへ出力
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		TransformerFactory transFactory = TransformerFactory.newInstance();
 		Transformer transformer = transFactory.newTransformer();
 
@@ -95,5 +143,34 @@ public class TaskXml{
 
 	}
 
+
+	public String[] dateTask (int dateNum) throws Exception{
+
+		DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = dbfactory.newDocumentBuilder();
+		Document document = builder.parse("taskXML.xml");
+		Element root = (Element)document.getDocumentElement();
+
+		//dateノードの数を取得するためのlist
+		NodeList list = document.getElementsByTagName("task");
+		String[] str = new String[list.getLength()];
+
+		for(int i=0;i<list.getLength();i++) {
+
+			Node node = root.getElementsByTagName("task").item(i);
+			NamedNodeMap attrs = node.getAttributes();
+			//属性の表示を文字列としてもつ
+			String attributeString = attrs.getNamedItem("dateNum").toString();
+			//属性の表示の文字列から日付を表す数字部分を切り取り
+			int attr = Integer.parseInt(attributeString.substring(9,17));
+			if(attr == dateNum) {
+				String task = node.getTextContent();
+				str[i] = task;
+			}
+		}
+
+		return str;
+
+	}
 
 }

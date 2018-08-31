@@ -25,8 +25,6 @@ public class MainFrame extends JFrame {
 	CalendarMainFrame calendarMainFrame = new CalendarMainFrame();
 static //	TaskFrame taskFrame = new TaskFrame();
 	TaskFrame taskFrame;
-
-
 	/**
 	 * Launch the application.
 	 */
@@ -36,6 +34,8 @@ static //	TaskFrame taskFrame = new TaskFrame();
 				try {
 					taskFrame = new TaskFrame();
 					MainFrame frame = new MainFrame();
+					
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,6 +44,7 @@ static //	TaskFrame taskFrame = new TaskFrame();
 		});
 	}
 	public MainFrame() {
+		
 
 		//フレームの作成
 		//パネルの色
@@ -58,7 +59,9 @@ static //	TaskFrame taskFrame = new TaskFrame();
 		setSize(475,800);
 		//フレームの表示位置
 		setBounds(475, 30, 475, 800);
-
+		//サイズ固定
+		setResizable(false);
+	    
 		//コンテンツを配置するパネル
 		//Jpanelのインスタンス化
 		contentPane = new JPanel();
@@ -126,15 +129,18 @@ static //	TaskFrame taskFrame = new TaskFrame();
 		dateLabel.setFont(new Font("", Font.PLAIN, 15));
 		//dateLabelの位置を指定
 		dateLabel.setBounds(35,30,450,40);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 850, 475, 220);
+
+//		setContentPane(taskContentPane);
+		JPanel taskWrapPanel = new JPanel();
+		taskWrapPanel.setBackground(Color.GRAY);
+		taskWrapPanel.setForeground(Color.GRAY);
+		taskWrapPanel.setBounds(0,560,475, 300);
 		JPanel taskContentPane = taskFrame.contentPane;
-		taskContentPane.setBounds(0,560,475, 150);
-		contentPane.add(taskContentPane);
-		
+		contentPane.add(taskWrapPanel);
+		taskWrapPanel.add(taskContentPane);
+
 		JPanel basePanel = new SwingCalendarBase();
-		basePanel.setBounds(0,130,475,440);
+		basePanel.setBounds(0,120,475,440);
 		basePanel.setBackground(Color.GRAY);
 		contentPane.add(basePanel);
 
@@ -151,8 +157,5 @@ static //	TaskFrame taskFrame = new TaskFrame();
 				SwingUtilities.invokeLater(this);
 			}
 		});
-
-
-//		setContentPane(taskContentPane);
 	}
 }
