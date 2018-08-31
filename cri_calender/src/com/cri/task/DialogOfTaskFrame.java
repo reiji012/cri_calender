@@ -71,7 +71,12 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 
 		textField = new JTextField();
 <<<<<<< HEAD
+<<<<<<< HEAD
 		textField.setPreferredSize(new Dimension(140,15));
+=======
+		textField.setText(hm.get("title").toString());
+		textField.setPreferredSize(new Dimension(180,30));
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		textField.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textField.setMargin(new Insets(0,0,0,0));
 
@@ -82,6 +87,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textField.setMargin(new Insets(0,0,0,0));
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.addFocusListener(new TextFieldFocusListener());
+<<<<<<< HEAD
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
+=======
 >>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		contentPane.add(textField,gbc);
 
@@ -100,8 +108,11 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 			yearsBox.addItem(i);
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		yearsBox.setPreferredSize(new Dimension(55,20));
 =======
+=======
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		yearsBox.setPreferredSize(new Dimension(80,20));
 		yearsBox.setSelectedItem(Integer.parseInt(hm.get("year").toString()));
 		yearsBox.setBackground(Color.LIGHT_GRAY);
@@ -118,9 +129,12 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 			dateBox.addItem(i);
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		dateBox.setPreferredSize(new Dimension(40,20));
 
 =======
+=======
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		dateBox.setPreferredSize(new Dimension(50,20));
 		dateBox.setSelectedItem(Integer.parseInt(hm.get("date").toString()));
 		dateBox.setBackground(Color.LIGHT_GRAY);
@@ -160,6 +174,9 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 		textArea.setFont(new Font("MS UI Gothic", Font.PLAIN, 12));
 		textArea.setBackground(Color.LIGHT_GRAY);
 		textArea.addFocusListener(new TextAreaFocusListener());
+<<<<<<< HEAD
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
+=======
 >>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 		scrollPane.setViewportView(textArea);
 
@@ -240,8 +257,53 @@ public class DialogOfTaskFrame extends JDialog implements ActionListener{
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	class TextAreaFocusListener implements FocusListener{
+=======
+	class TextAreaFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textArea.getText().equals("")) {
+				textArea.setText(placeholderArea);
+				textArea.setForeground(Color.GRAY);
+			}
+
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textArea.getText().equals(placeholderArea)) {
+				textArea.setText("");
+			}
+			textArea.setForeground(Color.BLACK);
+
+		}
+	}
+
+	class TextFieldFocusListener implements FocusListener{
+
+		public void focusLost(FocusEvent e) {
+
+			if(textField.getText().equals("")) {
+				textField.setText(placeholderField);
+				textField.setForeground(Color.GRAY);
+			}
+		}
+
+		public void focusGained(FocusEvent e) {
+
+			if(textField.getText().equals(placeholderField)) {
+				textField.setText("");
+			}
+			textField.setForeground(Color.BLACK);
+		}
+	}
+
+	//deleteボタン用のアクション
+	class DeleteActionListener implements ActionListener{
+>>>>>>> b94373d143db21e7720b0e2e8c2f993825d01938
 
 		public void focusLost(FocusEvent e) {
 
